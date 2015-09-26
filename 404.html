@@ -48,7 +48,7 @@ function(a){t(m.defaults,a);return m};m.defaults={gfm:!0,tables:!0,breaks:!1,ped
 m}).call(function(){return this||("undefined"!==typeof window?window:global)}());</script>
   <script>
 
-  var startmd = '# Hello world\n';
+  var startmd = localStorage.getItem(window.location.pathname) || '# Hello world\n';
   var filepath = null;
 
   function update (text, subset) {
@@ -60,6 +60,12 @@ m}).call(function(){return this||("undefined"!==typeof window?window:global)}())
   	$('#output code').each(function(i, e) {
   		$(e).html(hljs.highlight('javascript', e.innerText).value)
   	});
+
+    try {
+      localStorage.setItem(window.location.pathname, text);
+    } catch (e) {
+      alert(e);
+    }
   }
 
   $(function () {
