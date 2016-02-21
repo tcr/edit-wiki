@@ -48,64 +48,140 @@ function(a){t(m.defaults,a);return m};m.defaults={gfm:!0,tables:!0,breaks:!1,ped
 m}).call(function(){return this||("undefined"!==typeof window?window:global)}());</script>
   <script>
 
-  var startmd = localStorage.getItem(window.location.pathname) || '# Hello world\n';
-  var filepath = null;
+var startmd = localStorage.getItem(window.location.pathname) || '# Hello world\n';
+var filepath = null;
 
-  function update (text, subset) {
-  	var output = document.getElementById('output')
-  	output.innerHTML = marked.parse(subset);
-  	var scroll = output.scrollHeight - 40;
-  	output.innerHTML = marked.parse(text);
-  	output.parentNode.scrollTop = scroll;
-  	$('#output code').each(function(i, e) {
-  		$(e).html(hljs.highlight('javascript', e.innerText).value)
-  	});
+function update (text, subset) {
+	var output = document.getElementById('output')
+	output.innerHTML = marked.parse(subset);
+	var scroll = output.scrollHeight - 40;
+	output.innerHTML = marked.parse(text);
+	output.parentNode.scrollTop = scroll;
+	$('#output code').each(function(i, e) {
+		$(e).html(hljs.highlight('javascript', e.innerText).value)
+	});
 
-    try {
-      localStorage.setItem(window.location.pathname, text);
-    } catch (e) {
-      alert(e);
+  try {
+    localStorage.setItem(window.location.pathname, text);
+  } catch (e) {
+    alert(e);
+  }
+}
+
+$(function () {
+	var myCodeMirror = CodeMirror($('#input')[0], {
+	  value: startmd,
+	  mode:  "markdown",
+	  theme: 'solarized dark',
+	  lineWrapping: true,
+	});
+	myCodeMirror.focus()
+	myCodeMirror.on('change', function () {
+		update(myCodeMirror.getValue(), myCodeMirror.getRange({line: 0, ch: 0}, myCodeMirror.getCursor() || {line: 0, ch: 0}))
+	})
+	myCodeMirror.on('cursorActivity', function () {
+		update(myCodeMirror.getValue(), myCodeMirror.getRange({line: 0, ch: 0}, myCodeMirror.getCursor() || {line: 0, ch: 0}))
+	})
+	update(myCodeMirror.getValue(), myCodeMirror.getValue())
+  
+  // Populate sidebar
+  var list = [];
+  for (var i in window.localStorage) { 
+    if (i.match(/^\//)) {
+      list.push(i);
     }
   }
+  
+  list.forEach(function (i) {
+    $('#sidebar-pages').append($('<li>').append($('<a>').attr('href', i).text(i)));
+  });
+})
 
-  $(function () {
-  	var myCodeMirror = CodeMirror($('#input')[0], {
-		  value: startmd,
-		  mode:  "markdown",
-		  theme: 'solarized dark',
-		  lineWrapping: true,
-		});
-  	myCodeMirror.focus()
-  	myCodeMirror.on('change', function () {
-  		update(myCodeMirror.getValue(), myCodeMirror.getRange({line: 0, ch: 0}, myCodeMirror.getCursor() || {line: 0, ch: 0}))
-  	})
-  	myCodeMirror.on('cursorActivity', function () {
-  		update(myCodeMirror.getValue(), myCodeMirror.getRange({line: 0, ch: 0}, myCodeMirror.getCursor() || {line: 0, ch: 0}))
-  	})
-  	update(myCodeMirror.getValue(), myCodeMirror.getValue())
-  })
+$(document).on('keydown', function (e) {
+  if (e.keyCode == 27) {
+    $('body').toggleClass('with-sidebar')
+  }
+})
+  
   </script>
   <style>
-  html, body, #layout { width: 100%; height: 100%; margin: 0; padding: 0; }
-  .column { width: 50%; float: left; height: 100%; overflow: auto; box-sizing: border-box; }
-  #input, #output { width: 100%; box-sizing: border-box; }
-  #output { font-family: Open Sans, Helvetica Neue, Helvetica, Arial; padding: 0 20px; }
-  #input { font-size: 16px; height: 100%; }
-  .CodeMirror { background: transparent; color: #eee; height: 100%; font-family: Inconsolata, Courier New, monospace; padding: 10px 15px; }
-  #input, #output { display: block; }
-  #output pre {
-  	border-radius: 6px;
-background: #ddd;
-border: 1px solid #ccc;
-padding: 10px 15px;
-  }
+  
+html, body, #content, #layout { width: 100%; height: 100%; margin: 0; padding: 0; }
+body {  background: black; }
+.column { width: 50%; float: left; height: 100%; overflow: auto; box-sizing: border-box; }
+#input, #output { width: 100%; box-sizing: border-box; }
+#sidebar, #output { font-family: Open Sans, Helvetica Neue, Helvetica, Arial; }
+#output { padding: 0 20px; }
+#input { font-size: 16px; height: 100%; }
+.CodeMirror { background: transparent; color: #eee; height: 100%; font-family: Inconsolata, Courier New, monospace; padding: 10px 15px; }
+#input, #output { display: block; }
+#output pre {
+	border-radius: 6px;
+  background: #ddd;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+}
 
-  h1,h2,h3,h4,h5,h6 { margin-top: 1.4em; }
-  h1,h2,h3,h4,h5,h6 { margin-bottom: 0em; }
-  #output { padding-bottom: 25px; }
+h1,h2,h3,h4,h5,h6 { margin-top: 1.4em; }
+h1,h2,h3,h4,h5,h6 { margin-bottom: 0em; }
+#output { padding-bottom: 25px; }
+
+body.with-sidebar #sidebar {
+  left: 0;
+}
+
+#content {
+  transition: opacity linear 0.1s;
+}
+body.with-sidebar #content { opacity: 0.6; }
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -300px;
+  width: 300px;
+  background: #eee;
+  z-index: 100;
+  overflow-y: auto;
+  transition: left linear 0.1s;
+}
+
+#sidebar h1 { 
+  font-weight: 300;
+  margin: 20px 20px 20px;
+}
+
+#sidebar-pages, #sidebar-pages li {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#sidebar-pages li a {
+  display: block;
+  border: 1px solid #bbb;
+  border-width: 1px 0;
+  margin-bottom: -1px;
+  padding: 10px 20px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+#sidebar-pages li a:hover {
+  background: white;
+  cursor: pointer;
+}
+  
   </style>
   <body>
-    <div class="column"><div id="input"></div></div><!--<textarea id="input" onchange="setTimeout(update, 0)" onkeydown="setTimeout(update, 0)" onmousedown="setTimeout(update, 0)" onmouseup="setTimeout(update, 0)"># Hello world</textarea></div>-->
-    <div class="column" style="background: #eee;"><div id="output"></div></div>
+    <div id="sidebar">
+      <h1>edit.io</h1>
+      <ul id="sidebar-pages"></ul>
+    </div>
+    <div id="content">
+      <div class="column"><div id="input"></div></div><!--<textarea id="input" onchange="setTimeout(update, 0)" onkeydown="setTimeout(update, 0)" onmousedown="setTimeout(update, 0)" onmouseup="setTimeout(update, 0)"># Hello world</textarea></div>-->
+      <div class="column" style="background: #eee;"><div id="output"></div></div>
+    </div>
   </body>
 </html>
