@@ -55,15 +55,16 @@ function update (text, subset) {
 	var output = document.getElementById('output')
 	output.innerHTML = marked.parse(subset);
 	var scroll = output.scrollHeight - 40;
-  var text_render = text.slice(0, subset.length) + text.slice(subset.length).replace(/\n(?!---)|$/, '<span id="current"></span>\n');
+  // var text_render = text.slice(0, subset.length) + text.slice(subset.length).replace(/\n(?!---)|$/, '<span id="current"></span>\n');
+  var text_render = text;
 	output.innerHTML = marked.parse(text_render);
 	output.parentNode.scrollTop = scroll;
 	$('#output code').each(function(i, e) {
 		$(e).html(hljs.highlight('javascript', e.innerText).value)
 	});
 
-  $('.is_current').removeClass('is_current');
-  $('#current').parents('p, h1, h2, h3, h4, h5, h6, li').first().addClass('is_current');
+  // $('.is_current').removeClass('is_current');
+  // $('#current').parents('p, h1, h2, h3, h4, h5, h6, li').first().addClass('is_current');
 
   try {
     localStorage.setItem(window.location.pathname, text);
