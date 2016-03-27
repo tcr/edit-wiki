@@ -55,11 +55,15 @@ function update (text, subset) {
 	var output = document.getElementById('output')
 	output.innerHTML = marked.parse(subset);
 	var scroll = output.scrollHeight - 40;
-	output.innerHTML = marked.parse(text);
+  var text_render = text.slice(0, subset.length) + text.slice(subset.length).replace(/\n(?!---)|$/, '<span id="current"></span>\n');
+	output.innerHTML = marked.parse(text_render);
 	output.parentNode.scrollTop = scroll;
 	$('#output code').each(function(i, e) {
 		$(e).html(hljs.highlight('javascript', e.innerText).value)
 	});
+
+  $('.is_current').removeClass('is_current');
+  $('#current').parents('p, h1, h2, h3, h4, h5, h6, li').first().addClass('is_current');
 
   try {
     localStorage.setItem(window.location.pathname, text);
@@ -114,7 +118,7 @@ $(document).on('keydown', function (e) {
   
   </script>
   <style>
-  
+
 html, body, #content, #layout { width: 100%; height: 100%; margin: 0; padding: 0; }
 body {  background: black; }
 .column { width: 50%; float: left; height: 100%; overflow: auto; box-sizing: border-box; }
@@ -130,6 +134,7 @@ body {  background: black; }
   border: 1px solid #ccc;
   padding: 10px 15px;
 }
+.is_current { background: #ded; }
 
 .cm-hr {
   border: none !important;
