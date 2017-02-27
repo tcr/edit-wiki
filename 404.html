@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.0.3/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.0.3/theme/solarized.min.css">
   <script src="https://highlightjs.org/static/highlight.pack.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js'></script>
   <script>
 (function(){function u(a){this.tokens=[];this.tokens.links={};this.options=a||m.defaults;this.rules=f.normal;this.options.gfm&&(this.rules=this.options.tables?f.tables:f.gfm)}function r(a,b){this.options=b||m.defaults;this.links=a;this.rules=k.normal;this.renderer=this.options.renderer||new l;this.renderer.options=this.options;if(!this.links)throw Error("Tokens array requires a `links` property.");this.options.gfm?this.rules=this.options.breaks?k.breaks:k.gfm:this.options.pedantic&&(this.rules=k.pedantic)}
 function l(a){this.options=a||{}}function q(a){this.tokens=[];this.token=null;this.options=a||m.defaults;this.options.renderer=this.options.renderer||new l;this.renderer=this.options.renderer;this.renderer.options=this.options}function n(a,b){return a.replace(b?/&/g:/&(?!#?\w+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function w(a){return a.replace(/&([#\w]+);/g,function(a,e){e=e.toLowerCase();return"colon"===e?":":"#"===e.charAt(0)?"x"===
@@ -88,15 +89,21 @@ $(function () {
 		update(myCodeMirror.getValue(), myCodeMirror.getRange({line: 0, ch: 0}, myCodeMirror.getCursor() || {line: 0, ch: 0}))
 	})
 	update(myCodeMirror.getValue(), myCodeMirror.getValue())
-  
+
+  $('#sidebar-pages').append('<button>Export</button>')
+    .on('click', function () {
+      var blob = new Blob([JSON.stringify(window.localStorage, null, '  ')], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, "edit-backup.json");
+    });
+
   // Populate sidebar
   var list = [];
-  for (var i in window.localStorage) { 
+  for (var i in window.localStorage) {
     if (i.match(/^\//)) {
       list.push(i);
     }
   }
-  
+
   list.forEach(function (i) {
     $('#sidebar-pages').append($('<li>').append($('<a>').attr('href', i).text(i).prepend($('<span class="delete">').text('×'))));
   });
@@ -116,7 +123,7 @@ $(document).on('keydown', function (e) {
     $('body').toggleClass('with-sidebar')
   }
 })
-  
+
   </script>
   <style>
 
@@ -168,7 +175,7 @@ body.with-sidebar #content { opacity: 0.6; }
   transition: left linear 0.1s;
 }
 
-#sidebar h1 { 
+#sidebar h1 {
   font-weight: 300;
   margin: 20px 20px 20px;
 }
@@ -209,7 +216,7 @@ body.with-sidebar #content { opacity: 0.6; }
   background: white;
   cursor: pointer;
 }
-  
+
   </style>
   <body>
     <div id="sidebar">
