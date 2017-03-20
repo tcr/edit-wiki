@@ -90,7 +90,7 @@ $(function () {
 	})
 	update(myCodeMirror.getValue(), myCodeMirror.getValue())
 
-  $('#sidebar-pages').append('<button>Export</button>')
+  $('<button>Export</button>').appendTo('#sidebar-pages')
     .on('click', function () {
       var blob = new Blob([JSON.stringify(window.localStorage, null, '  ')], {type: "text/plain;charset=utf-8"});
       saveAs(blob, "edit-backup.json");
