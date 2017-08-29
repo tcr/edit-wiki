@@ -1,7 +1,2 @@
 .DS_Store
-.idea
-.nvmrc
-/dist/
-/lib/
-node_modules
-npm-debug.log
+__generated__/
