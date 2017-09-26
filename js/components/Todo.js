@@ -10,7 +10,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import ChangeTodoStatusMutation from '../mutations/ChangeTodoStatusMutation';
+// import ChangeTodoStatusMutation from '../mutations/ChangeTodoStatusMutation';
 import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
 import RenameTodoMutation from '../mutations/RenameTodoMutation';
 import TodoTextInput from './TodoTextInput';
@@ -28,26 +28,30 @@ class Todo extends React.Component {
   };
   _handleCompleteChange = (e) => {
     const complete = e.target.checked;
-    ChangeTodoStatusMutation.commit(
-      this.props.relay.environment,
-      complete,
-      this.props.todo,
-      this.props.viewer,
-    );
+    // ChangeTodoStatusMutation.commit(
+    //   this.props.relay.environment,
+    //   complete,
+    //   this.props.todo,
+    //   this.props.viewer,
+    // );
   };
   _handleDestroyClick = () => {
     this._removeTodo();
   };
+  
   _handleLabelDoubleClick = () => {
     this._setEditMode(true);
   };
+
   _handleTextInputCancel = () => {
     this._setEditMode(false);
   };
+
   _handleTextInputDelete = () => {
     this._setEditMode(false);
     this._removeTodo();
   };
+
   _handleTextInputSave = (text) => {
     this._setEditMode(false);
     RenameTodoMutation.commit(
@@ -56,6 +60,7 @@ class Todo extends React.Component {
       this.props.todo,
     );
   };
+
   _removeTodo() {
     RemoveTodoMutation.commit(
       this.props.relay.environment,
@@ -63,9 +68,11 @@ class Todo extends React.Component {
       this.props.viewer,
     );
   }
+
   _setEditMode = (shouldEdit) => {
     this.setState({isEditing: shouldEdit});
   };
+
   renderTextInput() {
     return (
       <TodoTextInput
@@ -78,6 +85,7 @@ class Todo extends React.Component {
       />
     );
   }
+
   render() {
     return (
       <li
@@ -117,8 +125,8 @@ export default createFragmentContainer(Todo, {
   viewer: graphql`
     fragment Todo_viewer on User {
       id,
-      totalCount,
-      completedCount,
+      #totalCount,
+      #completedCount,
     }
   `,
 });

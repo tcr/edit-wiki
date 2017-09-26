@@ -16,9 +16,9 @@ import {
 } from 'react-relay';
 
 const mutation = graphql`
-  mutation RenameTodoMutation($input: RenameTodoInput!) {
-    renameTodo(input:$input) {
-      todo {
+  mutation RenameTodoMutation($input: UpdateTodoInput!) {
+    updateTodo(input:$input) {
+      changedTodo {
         id
         text
       }

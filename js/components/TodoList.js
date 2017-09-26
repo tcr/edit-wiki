@@ -10,7 +10,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import MarkAllTodosMutation from '../mutations/MarkAllTodosMutation';
+// import MarkAllTodosMutation from '../mutations/MarkAllTodosMutation';
 import Todo from './Todo';
 
 import React from 'react';
@@ -22,12 +22,12 @@ import {
 class TodoList extends React.Component {
   _handleMarkAllChange = (e) => {
     const complete = e.target.checked;
-    MarkAllTodosMutation.commit(
-      this.props.relay.environment,
-      complete,
-      this.props.viewer.todos,
-      this.props.viewer,
-    );
+    // MarkAllTodosMutation.commit(
+    //   this.props.relay.environment,
+    //   complete,
+    //   this.props.viewer.todos,
+    //   this.props.viewer,
+    // );
   };
   renderTodos() {
     return this.props.viewer.todos.edges.map(edge =>
@@ -75,8 +75,8 @@ export default createFragmentContainer(TodoList, {
         },
       },
       id,
-      totalCount,
-      completedCount,
+      #totalCount,
+      #completedCount,
       ...Todo_viewer,
     }
   `,

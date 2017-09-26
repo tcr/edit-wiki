@@ -17,12 +17,15 @@ import {
 import {ConnectionHandler} from 'relay-runtime';
 
 const mutation = graphql`
-  mutation RemoveTodoMutation($input: RemoveTodoInput!) {
-    removeTodo(input: $input) {
-      deletedTodoId,
+  mutation RemoveTodoMutation($input: DeleteTodoInput!) {
+    deleteTodo(input: $input) {
+      changedTodo {
+        id
+      }
       viewer {
-        completedCount,
-        totalCount,
+        __typename
+        #completedCount,
+        #totalCount,
       },
     }
   }

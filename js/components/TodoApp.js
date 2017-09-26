@@ -75,7 +75,7 @@ export default createFragmentContainer(TodoApp, {
   viewer: graphql`
     fragment TodoApp_viewer on User {
       id,
-      totalCount,
+      #totalCount,
       ...TodoListFooter_viewer,
       ...TodoList_viewer,
     }

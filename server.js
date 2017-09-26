@@ -16,16 +16,17 @@ import path from 'path';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import {schema} from './data/schema';
+import Dotenv from 'dotenv-webpack';
 
 const APP_PORT = 3000;
 const GRAPHQL_PORT = 8080;
 
 // Expose a GraphQL endpoint
-const graphQLServer = express();
-graphQLServer.use('/', graphQLHTTP({schema, pretty: true}));
-graphQLServer.listen(GRAPHQL_PORT, () => console.log(
-  `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}`
-));
+// const graphQLServer = express();
+// graphQLServer.use('/', graphQLHTTP({schema, pretty: true}));
+// graphQLServer.listen(GRAPHQL_PORT, () => console.log(
+//   `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}`
+// ));
 
 // Serve the Relay app
 const compiler = webpack({
@@ -39,11 +40,13 @@ const compiler = webpack({
       },
     ],
   },
+  plugins: [new Dotenv()],
+  devtool: 'inline-source-map',
   output: {filename: 'app.js', path: '/'},
 });
 const app = new WebpackDevServer(compiler, {
   contentBase: '/public/',
-  proxy: {'/graphql': `http://localhost:${GRAPHQL_PORT}`},
+  // proxy: {'/graphql': `https://us-west-2.api.scaphold.io/graphql/pure-morning`},
   publicPath: '/js/',
   stats: {colors: true},
 });

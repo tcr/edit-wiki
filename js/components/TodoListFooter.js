@@ -10,7 +10,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import RemoveCompletedTodosMutation from '../mutations/RemoveCompletedTodosMutation';
+// import RemoveCompletedTodosM utation from '../mutations/RemoveCompletedTodosMutation';
 
 import React from 'react';
 import {
@@ -51,10 +51,11 @@ export default createFragmentContainer(
   graphql`
     fragment TodoListFooter_viewer on User {
       id,
-      completedCount,
+      #completedCount,
       completedTodos: todos(
-        status: "completed",
-        first: 2147483647  # max GraphQLInt
+        where: {
+          complete: {eq: true}
+        }
       ) {
         edges {
           node {
@@ -63,7 +64,7 @@ export default createFragmentContainer(
           }
         }
       },
-      totalCount,
+      # totalCount,
     }
   `
 );

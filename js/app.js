@@ -34,10 +34,12 @@ function fetchQuery(
   operation,
   variables,
 ) {
-  return fetch('/graphql', {
+  operation.text = operation.text.replace(/\b(start|end)Cursor\b/g, '');
+  return fetch('https://us-west-2.api.scaphold.io/graphql/pure-morning', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.AUTH_TOKEN}`,
     },
     body: JSON.stringify({
       query: operation.text,
@@ -45,11 +47,19 @@ function fetchQuery(
     }),
   }).then(response => {
     return response.json();
-  });
+  })
+  .then(json => {
+    let j = JSON.stringify(json);
+    let j2 = j.replace(/"pageInfo":{/g, `"pageInfo":{"endCursor":null,"startCursor":null,`);
+    let j3 = JSON.parse(j2);
+    return Promise.resolve(j3);
+  })
 }
 
+const network = Network.create(fetchQuery);
+
 const modernEnvironment = new Environment({
-  network: Network.create(fetchQuery),
+  network,
   store: new Store(new RecordSource()),
 });
 
@@ -59,14 +69,16 @@ ReactDOM.render(
     query={graphql`
       query appQuery {
         viewer {
-          ...TodoApp_viewer
+          user {
+            ...TodoApp_viewer
+          }
         }
       }
     `}
     variables={{}}
     render={({error, props}) => {
       if (props) {
-        return <TodoApp viewer={props.viewer} />;
+        return <TodoApp viewer={props.viewer.user} />;
       } else {
         return <div>Loading</div>;
       }
