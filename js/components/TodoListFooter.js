@@ -1,16 +1,4 @@
-/**
- * This file provided by Facebook is for non-commercial testing and evaluation
- * purposes only.  Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-// import RemoveCompletedTodosM utation from '../mutations/RemoveCompletedTodosMutation';
+import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
 
 import React from 'react';
 import {
@@ -20,15 +8,18 @@ import {
 
 class TodoListFooter extends React.Component {
   _handleRemoveCompletedTodosClick = () => {
-    RemoveCompletedTodosMutation.commit(
-      this.props.relay.environment,
-      this.props.viewer.completedTodos,
-      this.props.viewer,
-    );
+    console.log('---->', this.props.viewer);
+    for (let edge of this.props.viewer.completedTodos.edges) {
+      RemoveTodoMutation.commit(
+        this.props.relay.environment,
+        edge.node,
+        this.props.viewer,
+      );
+    }
   };
   render() {
-    const numCompletedTodos = this.props.viewer.completedCount;
-    const numRemainingTodos = this.props.viewer.totalCount - numCompletedTodos;
+    const numCompletedTodos = this.props.viewer.completedTodos.aggregations.count;
+    const numRemainingTodos = this.props.viewer.todos.aggregations.count - numCompletedTodos;
     return (
       <footer className="footer">
         <span className="todo-count">
@@ -50,8 +41,14 @@ export default createFragmentContainer(
   TodoListFooter,
   graphql`
     fragment TodoListFooter_viewer on User {
-      id,
-      #completedCount,
+      id
+      todos(
+        first: 2147483647  # max GraphQLInt
+      ) {
+        aggregations {
+          count
+        }
+      }
       completedTodos: todos(
         where: {
           complete: {eq: true}
@@ -63,8 +60,10 @@ export default createFragmentContainer(
             complete
           }
         }
+        aggregations {
+          count
+        }
       },
-      # totalCount,
     }
   `
 );

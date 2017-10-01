@@ -1,15 +1,3 @@
-/**
- * This file provided by Facebook is for non-commercial testing and evaluation
- * purposes only.  Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 import {
   commitMutation,
   graphql,
@@ -20,7 +8,6 @@ const mutation = graphql`
   mutation AddTodoMutation($input: CreateTodoInput!) {
     createTodo(input:$input) {
       changedEdge {
-        __typename
         cursor
         node {
           complete
@@ -30,7 +17,20 @@ const mutation = graphql`
       }
       viewer {
         id
-        #totalCount
+        user {
+          completedCount: todos(
+            where: { complete: { eq: true } }
+          ) {
+            aggregations {
+              count
+            }
+          }
+          todos {
+            aggregations {
+              count
+            }
+          }
+        }
       }
     }
   }
@@ -63,11 +63,13 @@ function commit(
           clientMutationId: tempID++,
         },
       },
+
       updater: (store) => {
         const payload = store.getRootField('createTodo');
         const newEdge = payload.getLinkedRecord('changedEdge');
         sharedUpdater(store, user, newEdge);
       },
+
       optimisticUpdater: (store) => {
         const id = 'client:newTodo:' + tempID++;
         const node = store.create(id, 'Todo');
@@ -79,11 +81,13 @@ function commit(
         );
         newEdge.setLinkedRecord(node, 'node');
         sharedUpdater(store, user, newEdge);
-        const userProxy = store.get(user.id);
-        userProxy.setValue(
-          userProxy.getValue('totalCount') + 1,
-          'totalCount',
-        );
+
+        // TODO
+        // const userProxy = store.get(user.id);
+        // userProxy.setValue(
+        //   userProxy.getValue('totalCount') + 1,
+        //   'totalCount',
+        // );
       },
     }
   );
