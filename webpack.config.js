@@ -12,7 +12,9 @@ module.exports = {
       },
     ],
   },
-  plugins: [new Dotenv()],
+  plugins: [new Dotenv({
+    systemvars: true, 
+  })],
   devtool: 'inline-source-map',
   output: {
     filename: 'app.js',
