@@ -16,16 +16,18 @@ const mutation = graphql`
         }
       }
       viewer {
-        id
         user {
-          completedCount: todos(
+          id
+          completedTodos: todos(
             where: { complete: { eq: true } }
           ) {
             aggregations {
               count
             }
           }
-          todos {
+          todos(
+            first: 2147483647  # max GraphQLInt
+          ) {
             aggregations {
               count
             }
@@ -81,13 +83,21 @@ function commit(
         );
         newEdge.setLinkedRecord(node, 'node');
         sharedUpdater(store, user, newEdge);
+      },
 
-        // TODO
-        // const userProxy = store.get(user.id);
-        // userProxy.setValue(
-        //   userProxy.getValue('totalCount') + 1,
-        //   'totalCount',
-        // );
+      optimisticResponse: {
+        createTodo: {
+          viewer: {
+            user: {
+              id: user.id,
+              todos: {
+                aggregations: {
+                  count: user.todos.aggregations.count + 1,
+                }
+              }
+            }
+          }
+        }
       },
     }
   );

@@ -5,7 +5,7 @@ import {
 
 const mutation = graphql`
   mutation RenameTodoMutation($input: UpdateTodoInput!) {
-    updateTodo(input:$input) {
+    updateTodo(input: $input) {
       changedTodo {
         id
         text
@@ -16,8 +16,8 @@ const mutation = graphql`
 
 function getOptimisticResponse(text, todo) {
   return {
-    renameTodo: {
-      todo: {
+    updateTodo: {
+      changedTodo: {
         id: todo.id,
         text: text,
       },

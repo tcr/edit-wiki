@@ -1,4 +1,4 @@
-import ChangeTodoStatusMutation from '../mutations/ChangeTodoStatusMutation';
+import MarkAllTodosMutation from '../mutations/MarkAllTodosMutation';
 import Todo from './Todo';
 
 import React from 'react';
@@ -10,15 +10,14 @@ import {
 class TodoList extends React.Component {
   _handleMarkAllChange = (e) => {
     const complete = e.target.checked;
-    for (let edge of this.props.viewer.todos.edges) {
-      ChangeTodoStatusMutation.commit(
-        this.props.relay.environment,
-        complete,
-        edge.node,
-        this.props.viewer,
-      );
-    }
+    MarkAllTodosMutation.commit(
+      this.props.relay.environment,
+      complete,
+      this.props.viewer.todos.edges.map(edge => edge.node),
+      this.props.viewer,
+    );
   };
+
   renderTodos() {
     return this.props.viewer.todos.edges.map(edge =>
       <Todo
@@ -28,13 +27,14 @@ class TodoList extends React.Component {
       />
     );
   }
+
   render() {
     const numTodos = this.props.viewer.todos.aggregations.count;
-    const numCompletedTodos = this.props.viewer.completedCount.aggregations.count;
+    const numCompletedTodos = this.props.viewer.completedTodos.aggregations.count;
     return (
       <section className="main">
         <input
-          checked={numTodos === numCompletedTodos}
+          checked={numTodos === numCompletedTodos && numTodos !== 0}
           className="toggle-all"
           onChange={this._handleMarkAllChange}
           type="checkbox"
@@ -53,6 +53,7 @@ class TodoList extends React.Component {
 export default createFragmentContainer(TodoList, {
   viewer: graphql`
     fragment TodoList_viewer on User {
+      id,
       todos(
         first: 2147483647  # max GraphQLInt
       ) @connection(key: "TodoList_todos") {
@@ -67,14 +68,13 @@ export default createFragmentContainer(TodoList, {
           count
         }
       }
-      completedCount: todos(
+      completedTodos: todos(
         where: { complete: { eq: true } }
       ) {
         aggregations {
           count
         }
       }
-      id,
       ...Todo_viewer,
     }
   `,

@@ -14,40 +14,6 @@ class Todo extends React.Component {
   state = {
     isEditing: false,
   };
-  _handleCompleteChange = (e) => {
-    const complete = e.target.checked;
-    ChangeTodoStatusMutation.commit(
-      this.props.relay.environment,
-      complete,
-      this.props.todo,
-      this.props.viewer,
-    );
-  };
-  _handleDestroyClick = () => {
-    this._removeTodo();
-  };
-  
-  _handleLabelDoubleClick = () => {
-    this._setEditMode(true);
-  };
-
-  _handleTextInputCancel = () => {
-    this._setEditMode(false);
-  };
-
-  _handleTextInputDelete = () => {
-    this._setEditMode(false);
-    this._removeTodo();
-  };
-
-  _handleTextInputSave = (text) => {
-    this._setEditMode(false);
-    RenameTodoMutation.commit(
-      this.props.relay.environment,
-      text,
-      this.props.todo,
-    );
-  };
 
   _removeTodo() {
     RemoveTodoMutation.commit(
@@ -57,9 +23,11 @@ class Todo extends React.Component {
     );
   }
 
-  _setEditMode = (shouldEdit) => {
-    this.setState({isEditing: shouldEdit});
-  };
+  _setEditMode(shouldEdit) {
+    this.setState({
+      isEditing: shouldEdit
+    });
+  }
 
   renderTextInput() {
     return (
@@ -67,9 +35,19 @@ class Todo extends React.Component {
         className="edit"
         commitOnBlur={true}
         initialValue={this.props.todo.text}
-        onCancel={this._handleTextInputCancel}
-        onDelete={this._handleTextInputDelete}
-        onSave={this._handleTextInputSave}
+        onCancel={() => this._setEditMode(false)}
+        onDelete={() => {
+          this._setEditMode(false);
+          this._removeTodo();
+        }}
+        onSave={(text) => {
+          this._setEditMode(false);
+          RenameTodoMutation.commit(
+            this.props.relay.environment,
+            text,
+            this.props.todo,
+          );
+        }}
       />
     );
   }
@@ -85,15 +63,24 @@ class Todo extends React.Component {
           <input
             checked={this.props.todo.complete}
             className="toggle"
-            onChange={this._handleCompleteChange}
+            onChange={(e) => {
+              const complete = e.target.checked;
+              ChangeTodoStatusMutation.commit(
+                this.props.relay.environment,
+                complete,
+                this.props.todo,
+                this.props.viewer,
+              );
+            }}
             type="checkbox"
           />
-          <label onDoubleClick={this._handleLabelDoubleClick}>
+          <label
+            onDoubleClick={(e) => this._setEditMode(true)}>
             {this.props.todo.text}
           </label>
           <button
             className="destroy"
-            onClick={this._handleDestroyClick}
+            onClick={() => this._removeTodo()}
           />
         </div>
         {this.state.isEditing && this.renderTextInput()}
@@ -113,7 +100,7 @@ export default createFragmentContainer(Todo, {
   viewer: graphql`
     fragment Todo_viewer on User {
       id,
-      totalCount: todos(
+      todos(
         first: 2147483647  # max GraphQLInt
       ) {
         aggregations {

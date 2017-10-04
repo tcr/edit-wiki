@@ -17,8 +17,9 @@ class TodoApp extends React.Component {
       this.props.viewer,
     );
   };
+
   render() {
-    const hasTodos = this.props.viewer.totalCount.aggregations.count > 0;
+    const hasTodos = this.props.viewer.todos.aggregations.count > 0;
     return (
       <div>
         <section className="todoapp">
@@ -63,7 +64,7 @@ export default createFragmentContainer(TodoApp, {
   viewer: graphql`
     fragment TodoApp_viewer on User {
       id
-      totalCount: todos(
+      todos(
         first: 2147483647  # max GraphQLInt
       ) {
         aggregations {

@@ -1,4 +1,4 @@
-import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
+import RemoveAllTodosMutation from '../mutations/RemoveAllTodosMutation';
 
 import React from 'react';
 import {
@@ -8,15 +8,13 @@ import {
 
 class TodoListFooter extends React.Component {
   _handleRemoveCompletedTodosClick = () => {
-    console.log('---->', this.props.viewer);
-    for (let edge of this.props.viewer.completedTodos.edges) {
-      RemoveTodoMutation.commit(
-        this.props.relay.environment,
-        edge.node,
-        this.props.viewer,
-      );
-    }
+    RemoveAllTodosMutation.commit(
+      this.props.relay.environment,
+      this.props.viewer.todos.edges.map(edge => edge.node).filter(node => node.complete),
+      this.props.viewer,
+    );
   };
+
   render() {
     const numCompletedTodos = this.props.viewer.completedTodos.aggregations.count;
     const numRemainingTodos = this.props.viewer.todos.aggregations.count - numCompletedTodos;
@@ -44,7 +42,13 @@ export default createFragmentContainer(
       id
       todos(
         first: 2147483647  # max GraphQLInt
-      ) {
+      ) @connection(key: "TodoList_todos") {
+        edges {
+          node {
+            id
+            complete
+          }
+        }
         aggregations {
           count
         }
@@ -54,12 +58,6 @@ export default createFragmentContainer(
           complete: {eq: true}
         }
       ) {
-        edges {
-          node {
-            id
-            complete
-          }
-        }
         aggregations {
           count
         }

@@ -19,13 +19,16 @@ export default class TodoTextInput extends React.Component {
     onSave: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
   };
+
   state = {
     isEditing: false,
     text: this.props.initialValue || '',
   };
+
   componentDidMount() {
     ReactDOM.findDOMNode(this).focus();
   }
+
   _commitChanges = () => {
     const newText = this.state.text.trim();
     if (this.props.onDelete && newText === '') {
@@ -37,14 +40,17 @@ export default class TodoTextInput extends React.Component {
       this.setState({text: ''});
     }
   };
+
   _handleBlur = () => {
     if (this.props.commitOnBlur) {
       this._commitChanges();
     }
   };
+
   _handleChange = (e) => {
     this.setState({text: e.target.value});
   };
+
   _handleKeyDown = (e) => {
     if (this.props.onCancel && e.keyCode === ESC_KEY_CODE) {
       this.props.onCancel();
@@ -52,6 +58,7 @@ export default class TodoTextInput extends React.Component {
       this._commitChanges();
     }
   };
+
   render() {
     return (
       <input

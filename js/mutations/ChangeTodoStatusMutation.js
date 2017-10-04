@@ -37,9 +37,11 @@ function getOptimisticResponse(complete, todo, user) {
     updateTodo: {
       changedTodo: {
         id: todo.id,
-        complete: complete,
+        complete,
       },
-      viewer: viewerPayload,
+      viewer: {
+        user: viewerPayload
+      },
     },
   };
 }

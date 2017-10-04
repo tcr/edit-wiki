@@ -12,9 +12,8 @@ const mutation = graphql`
       }
       viewer {
         id
-        #completedCount,
         user {
-          completedCount: todos(
+          completedTodos: todos(
             where: { complete: { eq: true } }
           ) {
             aggregations {
@@ -58,13 +57,35 @@ function commit(
       variables: {
         input: {id: todo.id},
       },
+
       updater: (store) => {
         const payload = store.getRootField('deleteTodo');
         const id = payload.getLinkedRecord('changedTodo').getValue('id');
         sharedUpdater(store, user, id);
       },
+
       optimisticUpdater: (store) => {
         sharedUpdater(store, user, todo.id);
+      },
+      
+      optimisticResponse: {
+        deleteTodo: {
+          viewer: {
+            user: {
+              id: user.id,
+              todos: {
+                aggregations: {
+                  count: user.todos.aggregations.count - 1,
+                }
+              },
+              completedTodos: {
+                aggregations: {
+                  count: user.completedTodos.aggregations.count - (todo.complete ? 1 : 0),
+                }
+              }
+            }
+          }
+        }
       },
     }
   );
