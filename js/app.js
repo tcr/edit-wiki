@@ -14,6 +14,9 @@ import 'todomvc-common';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Auth from './auth';
+
+import LoginMutation from './mutations/LoginMutation';
 
 import {
   QueryRenderer,
@@ -30,17 +33,25 @@ import TodoApp from './components/TodoApp';
 
 const mountNode = document.getElementById('root');
 
+let glob = '';
+
 function fetchQuery(
   operation,
   variables,
 ) {
-  operation.text = operation.text.replace(/\b(start|end)Cursor\b/g, '');
-  return fetch('https://us-west-2.api.scaphold.io/graphql/pure-morning', {
+  // console.log(`Bearer ${localStorage.getItem('id_token')}`);
+  // operation.text = operation.text.replace(/\b(start|end)Cursor\b/g, '');
+
+  let headers = {
+    'Content-Type': 'application/json',
+  };
+  // if (glob != '') {
+  //   headers['Authorization'] = glob;
+  // }
+
+  return fetch('https://api.graph.cool/relay/v1/cj8kg5jub004a0103tjgfa9y3', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.AUTH_TOKEN}`,
-    },
+    headers,
     body: JSON.stringify({
       query: operation.text,
       variables,
@@ -49,10 +60,10 @@ function fetchQuery(
     return response.json();
   })
   .then(json => {
-    let j = JSON.stringify(json);
-    let j2 = j.replace(/"pageInfo":{/g, `"pageInfo":{"endCursor":null,"startCursor":null,`);
-    let j3 = JSON.parse(j2);
-    return Promise.resolve(j3);
+    // let j = JSON.stringify(json);
+    // let j2 = j.replace(/"pageInfo":{/g, `"pageInfo":{"endCursor":null,"startCursor":null,`);
+    // let j3 = JSON.parse(j2);
+    return Promise.resolve(json);
   })
 }
 
@@ -63,26 +74,67 @@ const modernEnvironment = new Environment({
   store: new Store(new RecordSource()),
 });
 
-ReactDOM.render(
-  <QueryRenderer
-    environment={modernEnvironment}
-    query={graphql`
-      query appQuery {
-        viewer {
-          user {
-            ...TodoApp_viewer
-          }
-        }
-      }
-    `}
-    variables={{}}
-    render={({error, props}) => {
-      if (props) {
-        return <TodoApp viewer={props.viewer.user} />;
+const auth = new Auth();
+auth.handleAuthentication();
+// auth.logout();
+
+class Root extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      authed: false,
+    };
+  }
+
+  render() {
+    if (auth.isAuthenticated()) {
+      glob = `Bearer ${localStorage.getItem('id_token')}`;
+      if (!this.state.authed) {
+        LoginMutation.commit(
+          modernEnvironment,
+          localStorage.getItem('id_token'),
+          () => {
+            this.setState({authed: true});
+          });
+        return (
+          <div>Loading...</div>
+        );
       } else {
-        return <div>Loading</div>;
+        return (
+          <QueryRenderer
+            environment={modernEnvironment}
+            query={graphql`
+              query appQuery {
+                viewer {
+                  user {
+                    ...TodoApp_viewer
+                  }
+                }
+              }
+            `}
+            variables={{}}
+            render={({error, props}) => {
+              if (props) {
+                return <TodoApp viewer={props.viewer.user} />;
+              } else {
+                return <div>Waiting on Relay...</div>;
+              }
+            }}
+          />
+        );
       }
-    }}
-  />,
-  mountNode
+    } else {
+      return (
+        <div>
+          <button onClick={() => auth.login()}>Authenticate</button>
+        </div>
+      );
+    }
+  }
+}
+
+ReactDOM.render(
+  <Root />,
+  mountNode,
 );

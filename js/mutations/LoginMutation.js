@@ -1,9 +1,14 @@
+import {
+  commitMutation,
+  graphql,
+} from 'react-relay';
+import {ConnectionHandler} from 'relay-runtime';
+
 const mutation = graphql`
-  mutation LoginUserQuery(
-    $input: LoginUserInput!
+  mutation LoginMutation(
+    $token: LoginUserWithAuth0Input!
   ) {
-    loginUser(input: $input) {
-      token
+    loginUserWithAuth0(input: $token) {
       user {
         id
         username
@@ -12,3 +17,29 @@ const mutation = graphql`
     }
   }
 `;
+
+
+function commit(
+  environment,
+  idToken,
+  next,
+) {
+  return commitMutation(
+    environment,
+    {
+      mutation,
+      variables: {
+        token: {
+          idToken,
+        },
+      },
+
+      onCompleted: () => {
+        console.log(arguments);
+        next && next();
+      },
+    }
+  );
+}
+
+export default {commit};

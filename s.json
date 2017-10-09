@@ -287,22 +287,6 @@
                 "description": "The Todo type",
                 "fields": [
                     {
-                        "name": "createdAt",
-                        "description": "When paired with the Node interface, this is an automatically managed\n          timestamp that is set when an object is first created.",
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "user",
                         "description": "The reverse field of 'todos' in M:1 connection\n            with type 'Todo'.",
                         "type": {
@@ -323,22 +307,6 @@
                             "ofType": {
                                 "kind": "SCALAR",
                                 "name": "ID",
-                                "ofType": null
-                            }
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "modifiedAt",
-                        "description": "When paired with the Node interface, this is an automatically managed\n          timestamp that is set whenever an object is mutated.",
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
                                 "ofType": null
                             }
                         },
@@ -377,92 +345,8 @@
                         "kind": "INTERFACE",
                         "name": "Node",
                         "ofType": null
-                    },
-                    {
-                        "kind": "INTERFACE",
-                        "name": "Timestamped",
-                        "ofType": null
                     }
                 ],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INTERFACE",
-                "name": "Timestamped",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "modifiedAt",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "createdAt",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": [
-                    {
-                        "kind": "OBJECT",
-                        "name": "Todo",
-                        "ofType": null
-                    },
-                    {
-                        "kind": "OBJECT",
-                        "name": "User",
-                        "ofType": null
-                    },
-                    {
-                        "kind": "OBJECT",
-                        "name": "Role",
-                        "ofType": null
-                    },
-                    {
-                        "kind": "OBJECT",
-                        "name": "File",
-                        "ofType": null
-                    },
-                    {
-                        "kind": "OBJECT",
-                        "name": "UserRoles",
-                        "ofType": null
-                    }
-                ]
-            },
-            {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "description": "The `DateTime` type represents a single point in time and is stored with\n                  millisecond precision plus a time zone specified by ISO 8601. All types come\n                  preloaded with createdAt and modifiedAt timestamps that are automatically managed\n                  for you.",
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },
@@ -723,6 +607,80 @@
                 "possibleTypes": null
             },
             {
+                "kind": "INTERFACE",
+                "name": "Timestamped",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "modifiedAt",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "DateTime",
+                                "ofType": null
+                            }
+                        },
+                        "args": [],
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "createdAt",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "DateTime",
+                                "ofType": null
+                            }
+                        },
+                        "args": [],
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": [
+                    {
+                        "kind": "OBJECT",
+                        "name": "User",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "Role",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "File",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "UserRoles",
+                        "ofType": null
+                    }
+                ]
+            },
+            {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "description": "The `DateTime` type represents a single point in time and is stored with\n                  millisecond precision plus a time zone specified by ISO 8601. All types come\n                  preloaded with createdAt and modifiedAt timestamps that are automatically managed\n                  for you.",
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
                 "kind": "SCALAR",
                 "name": "String",
                 "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
@@ -739,16 +697,6 @@
                 "fields": null,
                 "inputFields": [
                     {
-                        "name": "createdAt",
-                        "description": "Filter results for on the createdAt field.",
-                        "type": {
-                            "kind": "INPUT_OBJECT",
-                            "name": "TodoCreatedAtWhereArgs",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
                         "name": "user",
                         "description": "Filter results based on a related object via the user connection",
                         "type": {
@@ -764,16 +712,6 @@
                         "type": {
                             "kind": "INPUT_OBJECT",
                             "name": "TodoIdWhereArgs",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "modifiedAt",
-                        "description": "Filter results for on the modifiedAt field.",
-                        "type": {
-                            "kind": "INPUT_OBJECT",
-                            "name": "TodoModifiedAtWhereArgs",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -837,173 +775,6 @@
                         "defaultValue": null
                     }
                 ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "TodoCreatedAtWhereArgs",
-                "description": null,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "eq",
-                        "description": "Equal to. This takes a higher precedence than the other operators.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "ne",
-                        "description": "Not equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gt",
-                        "description": "Greater than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gte",
-                        "description": "Greater than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lt",
-                        "description": "Less than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lte",
-                        "description": "Less than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "between",
-                        "description": "A two element tuple describing a range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notBetween",
-                        "description": "A two element tuple describing an excluded range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "in",
-                        "description": "A list of values to include.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notIn",
-                        "description": "A list of values to exclude.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "like",
-                        "description": "A pattern to match for likeness.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notLike",
-                        "description": "A pattern to match for likeness and exclude.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "isNull",
-                        "description": "Filters for null values. This takes precedence after 'eq' but before all other fields",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Boolean",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "description": "The `Boolean` scalar type represents `true` or `false`.",
-                "fields": null,
-                "inputFields": null,
                 "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
@@ -1280,6 +1051,16 @@
                         "defaultValue": null
                     }
                 ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "description": "The `Boolean` scalar type represents `true` or `false`.",
+                "fields": null,
+                "inputFields": null,
                 "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
@@ -3294,163 +3075,6 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "TodoModifiedAtWhereArgs",
-                "description": null,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "eq",
-                        "description": "Equal to. This takes a higher precedence than the other operators.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "ne",
-                        "description": "Not equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gt",
-                        "description": "Greater than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gte",
-                        "description": "Greater than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lt",
-                        "description": "Less than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lte",
-                        "description": "Less than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "between",
-                        "description": "A two element tuple describing a range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notBetween",
-                        "description": "A two element tuple describing an excluded range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "in",
-                        "description": "A list of values to include.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notIn",
-                        "description": "A list of values to exclude.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "like",
-                        "description": "A pattern to match for likeness.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notLike",
-                        "description": "A pattern to match for likeness and exclude.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "isNull",
-                        "description": "Filters for null values. This takes precedence after 'eq' but before all other fields",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Boolean",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
                 "name": "TodoCompleteWhereArgs",
                 "description": null,
                 "fields": null,
@@ -3872,19 +3496,7 @@
                 "interfaces": null,
                 "enumValues": [
                     {
-                        "name": "createdAt",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "id",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "modifiedAt",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4155,30 +3767,6 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "createdAt",
-                        "description": null,
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "modifiedAt",
-                        "description": null,
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "complete",
                         "description": null,
                         "type": {
@@ -4213,30 +3801,6 @@
                 "name": "TodoAggregationsMax",
                 "description": null,
                 "fields": [
-                    {
-                        "name": "createdAt",
-                        "description": null,
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "modifiedAt",
-                        "description": null,
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
                     {
                         "name": "complete",
                         "description": null,
@@ -10111,87 +9675,6 @@
                         ],
                         "isDeprecated": false,
                         "deprecationReason": null
-                    },
-                    {
-                        "name": "loginUserWithAuth0Social",
-                        "description": "The input object type used to log in a user with Auth0 Social",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "LoginUserWithAuth0SocialPayload",
-                            "ofType": null
-                        },
-                        "args": [
-                            {
-                                "name": "input",
-                                "description": null,
-                                "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "LoginUserWithAuth0SocialInput",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null
-                            }
-                        ],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "loginUserWithAuth0Lock",
-                        "description": "The input object type used to log in a user with Auth0 Lock",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "LoginUserWithAuth0LockPayload",
-                            "ofType": null
-                        },
-                        "args": [
-                            {
-                                "name": "input",
-                                "description": null,
-                                "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "LoginUserWithAuth0LockInput",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null
-                            }
-                        ],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "loginUserWithAuth0",
-                        "description": null,
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "LoginUserWithAuth0Payload",
-                            "ofType": null
-                        },
-                        "args": [
-                            {
-                                "name": "input",
-                                "description": null,
-                                "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "LoginUserWithAuth0Input",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null
-                            }
-                        ],
-                        "isDeprecated": false,
-                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -13533,778 +13016,6 @@
                 "possibleTypes": null
             },
             {
-                "kind": "INPUT_OBJECT",
-                "name": "LoginUserWithAuth0SocialInput",
-                "description": null,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "access_token",
-                        "description": "The access token of the the social authentication connection. This should be\n          obtained via an SDK through connections like Facebook, Twitter, or Google.",
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "connection",
-                        "description": "The social connection name (i.e. Facebook, Google, Twitter, etc...).",
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "ENUM",
-                                "name": "ConnectionType",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "clientMutationId",
-                        "description": "An opaque string used by frontend frameworks like relay to track requests and responses.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "ENUM",
-                "name": "ConnectionType",
-                "description": "Values for the ConnectionType enum",
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": [
-                    {
-                        "name": "ad",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "adfs",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "amazon",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "dropbox",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "bitbucket",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "aol",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "auth0_adldap",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "auth0_oidc",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "auth0",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "baidu",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "bitly",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "box",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "custom",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "dwolla",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "email",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "evernote_sandbox",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "evernote",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "exact",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "facebook",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "fitbit",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "flickr",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "github",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "google_apps",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "google_oauth2",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "guardian",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "instagram",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "ip",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "linkedin",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "miicard",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "oauth1",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "oauth2",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "office365",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "paypal",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "pingfederate",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "planningcenter",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "renren",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "salesforce_community",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "salesforce_sandbox",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "salesforce",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "samlp",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "sharepoint",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "shopify",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "sms",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "soundcloud",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "thecity_sandbox",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "thecity",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "thirtysevensignals",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "twitter",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "untappd",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "vkontakte",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "waad",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "weibo",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "windowslive",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "wordpress",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "yahoo",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "yammer",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "yandex",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
-                "name": "LoginUserWithAuth0SocialPayload",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "access_token",
-                        "description": "The access token of the logged in user issued\n            from the social authentication connection.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "token",
-                        "description": "The id token of the logged in user issued from the\n            social authentication connection.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "token_type",
-                        "description": "The type of the token.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "user",
-                        "description": "The mutated User.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "User",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "changedEdge",
-                        "description": "An edge containing the mutated User. Use this to update your client side cache.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "UserEdge",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "viewer",
-                        "description": "A view port into your application.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "Viewer",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "clientMutationId",
-                        "description": "An opaque string used by frontend frameworks like relay to track requests and responses.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "LoginUserWithAuth0LockInput",
-                "description": null,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "identity",
-                        "description": "The identity from the \"profile\" object of the response payload from Auth0 Lock.",
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "INPUT_OBJECT",
-                                "name": "Auth0LockIdentity",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "access_token",
-                        "description": "The access token of the the social authentication connection. This should be\n          obtained via an SDK through connections like Facebook, Twitter, or Google.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "clientMutationId",
-                        "description": "An opaque string used by frontend frameworks like relay to track requests and responses.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "Auth0LockIdentity",
-                "description": "Identity object returned from the 'profile' in the response paylaod\n        of Auth0 Lock login.",
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "userId",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "provider",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "connection",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "isSocial",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "expiresIn",
-                        "description": null,
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Int",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
-                "name": "LoginUserWithAuth0LockPayload",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "user",
-                        "description": "The mutated User.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "User",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "changedEdge",
-                        "description": "An edge containing the mutated User. Use this to update your client side cache.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "UserEdge",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "viewer",
-                        "description": "A view port into your application.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "Viewer",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "clientMutationId",
-                        "description": "An opaque string used by frontend frameworks like relay to track requests and responses.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "LoginUserWithAuth0Input",
-                "description": null,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "idToken",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "clientMutationId",
-                        "description": "An opaque string used by frontend frameworks like relay to track requests and responses.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
-                "name": "LoginUserWithAuth0Payload",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "user",
-                        "description": "The mutated User.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "User",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "changedEdge",
-                        "description": "An edge containing the mutated User. Use this to update your client side cache.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "UserEdge",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "viewer",
-                        "description": "A view port into your application.",
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "Viewer",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "clientMutationId",
-                        "description": "An opaque string used by frontend frameworks like relay to track requests and responses.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "args": [],
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
                 "kind": "OBJECT",
                 "name": "Subscription",
                 "description": null,
@@ -14486,31 +13197,11 @@
                 "fields": null,
                 "inputFields": [
                     {
-                        "name": "createdAt",
-                        "description": "Filter results for on the createdAt field.",
-                        "type": {
-                            "kind": "INPUT_OBJECT",
-                            "name": "TodoCreatedAtSubscriptionFilters",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
                         "name": "id",
                         "description": "Filter results for on the id field.",
                         "type": {
                             "kind": "INPUT_OBJECT",
                             "name": "TodoIdSubscriptionFilters",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "modifiedAt",
-                        "description": "Filter results for on the modifiedAt field.",
-                        "type": {
-                            "kind": "INPUT_OBJECT",
-                            "name": "TodoModifiedAtSubscriptionFilters",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -14541,183 +13232,6 @@
                         "type": {
                             "kind": "INPUT_OBJECT",
                             "name": "TodoUserIdSubscriptionFilters",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "TodoCreatedAtSubscriptionFilters",
-                "description": null,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "eq",
-                        "description": "Equal to. This takes a higher precedence than the other operators.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gt",
-                        "description": "Greater than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gte",
-                        "description": "Greater than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lt",
-                        "description": "Less than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lte",
-                        "description": "Less than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "ne",
-                        "description": "Not equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "between",
-                        "description": "A two element tuple describing a range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notBetween",
-                        "description": "A two element tuple describing an excluded range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "in",
-                        "description": "A list of values to include.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notIn",
-                        "description": "A list of values to exclude.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "like",
-                        "description": "A pattern to match for likeness.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notLike",
-                        "description": "A pattern to match for likeness and exclude.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "matches",
-                        "description": "A regular expression to match on. Note that unlike 'like' this uses regular expression syntax instead of SQL like syntax.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notMatches",
-                        "description": "A regular expression to reject on. Note that unlike 'like' this uses regular expression syntax instead of SQL like syntax.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "isNull",
-                        "description": "Filters for null values. This takes precedence after 'eq' but before all other fields",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Boolean",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -14768,183 +13282,6 @@
                                 "name": "ID",
                                 "ofType": null
                             }
-                        },
-                        "defaultValue": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "TodoModifiedAtSubscriptionFilters",
-                "description": null,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "eq",
-                        "description": "Equal to. This takes a higher precedence than the other operators.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gt",
-                        "description": "Greater than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "gte",
-                        "description": "Greater than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lt",
-                        "description": "Less than.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "lte",
-                        "description": "Less than or equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "ne",
-                        "description": "Not equal to.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "DateTime",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "between",
-                        "description": "A two element tuple describing a range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notBetween",
-                        "description": "A two element tuple describing an excluded range of values.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "in",
-                        "description": "A list of values to include.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notIn",
-                        "description": "A list of values to exclude.",
-                        "type": {
-                            "kind": "LIST",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "DateTime",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "like",
-                        "description": "A pattern to match for likeness.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notLike",
-                        "description": "A pattern to match for likeness and exclude.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "matches",
-                        "description": "A regular expression to match on. Note that unlike 'like' this uses regular expression syntax instead of SQL like syntax.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "notMatches",
-                        "description": "A regular expression to reject on. Note that unlike 'like' this uses regular expression syntax instead of SQL like syntax.",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null
-                    },
-                    {
-                        "name": "isNull",
-                        "description": "Filters for null values. This takes precedence after 'eq' but before all other fields",
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Boolean",
-                            "ofType": null
                         },
                         "defaultValue": null
                     }

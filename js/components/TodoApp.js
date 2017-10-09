@@ -54,6 +54,7 @@ class TodoApp extends React.Component {
           <p>
             Part of <a href="http://todomvc.com">TodoMVC</a>
           </p>
+          <button>Disconnect</button>
         </footer>
       </div>
     );
