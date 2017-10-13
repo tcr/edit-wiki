@@ -99,20 +99,16 @@ export default createFragmentContainer(Todo, {
   `,
   viewer: graphql`
     fragment Todo_viewer on User {
-      id,
-      todos(
-        first: 2147483647  # max GraphQLInt
+      id
+      incompleteTodos: todos(
+        first: 1000
       ) {
-        aggregations {
-          count
-        }
+        count
       }
       completedTodos: todos(
-        where: {complete: {eq: true}}
+        filter: {complete: true}
       ) {
-        aggregations {
-          count
-        }
+        count
       }
     }
   `,

@@ -9,20 +9,17 @@ const mutation = graphql`
     $__template_input: UpdateTodoInput!
   ) {
     __template: updateTodo(input: $__template_input) {
-      changedTodo {
+      todo {
         id
         complete
       }
       viewer {
-        id
         user {
           id
           completedTodos: todos(
-            where: { complete: { eq: true } }
+            filter: { complete: true }
           ) {
-            aggregations {
-              count
-            }
+            count
           }
         }
       }
@@ -32,7 +29,7 @@ const mutation = graphql`
 
 function getOptimisticResponse(complete, todo, todos, user) {
   return {
-    changedTodo: {
+    todo: {
       id: todo.id,
       complete,
     },
@@ -40,9 +37,7 @@ function getOptimisticResponse(complete, todo, todos, user) {
       user: {
         id: user.id,
         completedTodos: {
-          aggregations: {
-            count: complete ? todos.length : 0,
-          },
+          count: complete ? todos.length : 0,
         },
       },
     },
@@ -60,7 +55,10 @@ function commit(
     mutation,
     todos,
     (todo) => ({
-      variables: {complete, id: todo.id},
+      variables: {
+        complete,
+        id: todo.id,
+      },
       optimisticResponse: getOptimisticResponse(complete, todo, todos, user),
     }),
   );

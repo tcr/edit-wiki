@@ -19,7 +19,7 @@ class TodoApp extends React.Component {
   };
 
   render() {
-    const hasTodos = this.props.viewer.todos.aggregations.count > 0;
+    const hasTodos = this.props.viewer.incompleteTodos.count > 0;
     return (
       <div>
         <section className="todoapp">
@@ -65,12 +65,10 @@ export default createFragmentContainer(TodoApp, {
   viewer: graphql`
     fragment TodoApp_viewer on User {
       id
-      todos(
-        first: 2147483647  # max GraphQLInt
+      incompleteTodos: todos(
+        first: 1000
       ) {
-        aggregations {
-          count
-        }
+        count
       }
       ...TodoListFooter_viewer,
       ...TodoList_viewer,

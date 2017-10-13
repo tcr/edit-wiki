@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "babel-node ./server.js",
-    "build": "relay-compiler --src ./js/ --schema ./schema.json",
+    "build": "relay-compiler --src ./js/ --schema ./relay.schema",
     "update-schema": "babel-node ./scripts/updateSchema.js",
     "lint": "eslint ./js"
   },
@@ -23,11 +23,13 @@
     "express-graphql": "^0.6.4",
     "graphql": "^0.9.6",
     "graphql-relay": "^0.5.1",
+    "jwt-decode": "^2.2.0",
     "null-loader": "^0.1.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-relay": "^1.3.0",
+    "request": "^2.83.0",
     "todomvc-app-css": "^2.1.0",
     "todomvc-common": "^1.0.3",
     "webpack-dev-server": "^2.7.1",

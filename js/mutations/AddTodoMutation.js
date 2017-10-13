@@ -7,7 +7,7 @@ import {ConnectionHandler} from 'relay-runtime';
 const mutation = graphql`
   mutation AddTodoMutation($input: CreateTodoInput!) {
     createTodo(input:$input) {
-      changedEdge {
+      edge {
         cursor
         node {
           complete
@@ -18,19 +18,15 @@ const mutation = graphql`
       viewer {
         user {
           id
-          completedTodos: todos(
-            where: { complete: { eq: true } }
+          incompleteTodos: todos(
+            first: 1000
           ) {
-            aggregations {
-              count
-            }
+            count
           }
-          todos(
-            first: 2147483647  # max GraphQLInt
+          completedTodos: todos(
+            filter: { complete: true }
           ) {
-            aggregations {
-              count
-            }
+            count
           }
         }
       }
@@ -43,11 +39,12 @@ function sharedUpdater(store, user, newEdge) {
   const conn = ConnectionHandler.getConnection(
     userProxy,
     'TodoList_todos',
+    {orderBy: 'createdAt_DESC'},
   );
   ConnectionHandler.insertEdgeBefore(conn, newEdge);
 }
 
-let tempID = 0;
+var tempID = 0;
 
 function commit(
   environment,
@@ -62,18 +59,17 @@ function commit(
         input: {
           userId: user.id,
           text,
-          clientMutationId: tempID++,
         },
       },
 
       updater: (store) => {
         const payload = store.getRootField('createTodo');
-        const newEdge = payload.getLinkedRecord('changedEdge');
+        const newEdge = payload.getLinkedRecord('edge');
         sharedUpdater(store, user, newEdge);
       },
 
       optimisticUpdater: (store) => {
-        const id = 'client:newTodo:' + tempID++;
+        const id = 'client:newEdge:' + tempID++;
         const node = store.create(id, 'Todo');
         node.setValue(text, 'text');
         node.setValue(id, 'id');
@@ -90,10 +86,8 @@ function commit(
           viewer: {
             user: {
               id: user.id,
-              todos: {
-                aggregations: {
-                  count: user.todos.aggregations.count + 1,
-                }
+              incompleteTodos: {
+                count: user.incompleteTodos.count + 1,
               }
             }
           }

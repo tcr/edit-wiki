@@ -16,7 +16,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Auth from './auth';
 
-import LoginMutation from './mutations/LoginMutation';
+import CreateUserMutation from './mutations/CreateUserMutation';
+import LoginUserMutation from './mutations/LoginUserMutation';
 
 import {
   QueryRenderer,
@@ -45,26 +46,29 @@ function fetchQuery(
   let headers = {
     'Content-Type': 'application/json',
   };
-  // if (glob != '') {
-  //   headers['Authorization'] = glob;
-  // }
+  let glob = localStorage.getItem('graphcool_token');
+  if (glob != '' && glob) {
+    headers['Authorization'] = `Bearer ${glob}`;
+  }
+
+  let v = JSON.parse(JSON.stringify(variables));
+
+  if (operation.text.match(/^[\s\n\r]*mutation/)) {
+    Object.keys(variables).forEach((key) => {
+      v[key].clientMutationId = String('random:' + Math.random());
+    });
+  }
 
   return fetch('https://api.graph.cool/relay/v1/cj8kg5jub004a0103tjgfa9y3', {
     method: 'POST',
     headers,
     body: JSON.stringify({
       query: operation.text,
-      variables,
+      variables: v,
     }),
   }).then(response => {
     return response.json();
-  })
-  .then(json => {
-    // let j = JSON.stringify(json);
-    // let j2 = j.replace(/"pageInfo":{/g, `"pageInfo":{"endCursor":null,"startCursor":null,`);
-    // let j3 = JSON.parse(j2);
-    return Promise.resolve(json);
-  })
+  });
 }
 
 const network = Network.create(fetchQuery);
@@ -89,18 +93,19 @@ class Root extends React.Component {
 
   render() {
     if (auth.isAuthenticated()) {
-      glob = `Bearer ${localStorage.getItem('id_token')}`;
-      if (!this.state.authed) {
-        LoginMutation.commit(
-          modernEnvironment,
-          localStorage.getItem('id_token'),
-          () => {
-            this.setState({authed: true});
-          });
-        return (
-          <div>Loading...</div>
-        );
-      } else {
+      // glob = `Bearer ${localStorage.getItem('id_token')}`;
+      console.log('-id_token->', localStorage.getItem('id_token'));
+      // if (!this.state.authed) {
+        // CreateUserMutation.commit(
+        //   modernEnvironment,
+        //   localStorage.getItem('id_token'),
+        //   () => {
+        //     this.setState({authed: true});
+        //   });
+        // return (
+        //   <div>Loading...</div>
+        // );
+      // } else {
         return (
           <QueryRenderer
             environment={modernEnvironment}
@@ -123,7 +128,7 @@ class Root extends React.Component {
             }}
           />
         );
-      }
+      // }
     } else {
       return (
         <div>

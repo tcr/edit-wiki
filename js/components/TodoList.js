@@ -29,8 +29,8 @@ class TodoList extends React.Component {
   }
 
   render() {
-    const numTodos = this.props.viewer.todos.aggregations.count;
-    const numCompletedTodos = this.props.viewer.completedTodos.aggregations.count;
+    const numTodos = this.props.viewer.incompleteTodos.count;
+    const numCompletedTodos = this.props.viewer.completedTodos.count;
     return (
       <section className="main">
         <input
@@ -55,27 +55,28 @@ export default createFragmentContainer(TodoList, {
     fragment TodoList_viewer on User {
       id,
       todos(
-        first: 2147483647  # max GraphQLInt
+        first: 1000
+        orderBy: createdAt_DESC
       ) @connection(key: "TodoList_todos") {
         edges {
           node {
-            id,
-            complete,
-            ...Todo_todo,
-          },
-        },
-        aggregations {
-          count
+            id
+            complete
+            ...Todo_todo
+          }
         }
+      }
+      incompleteTodos: todos(
+        first: 1000
+      ) {
+        count
       }
       completedTodos: todos(
-        where: { complete: { eq: true } }
+        filter: { complete: true }
       ) {
-        aggregations {
-          count
-        }
+        count
       }
-      ...Todo_viewer,
+      ...Todo_viewer
     }
   `,
 });

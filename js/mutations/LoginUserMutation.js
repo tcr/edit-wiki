@@ -2,22 +2,18 @@ import {
   commitMutation,
   graphql,
 } from 'react-relay';
-import {ConnectionHandler} from 'relay-runtime';
 
 const mutation = graphql`
-  mutation LoginMutation(
-    $token: LoginUserWithAuth0Input!
+  mutation LoginUserMutation(
+    $input: SigninUserInput!
   ) {
-    loginUserWithAuth0(input: $token) {
+    signinUser(input: $input) {
       user {
         id
-        username
-        createdAt
       }
     }
   }
 `;
-
 
 function commit(
   environment,
@@ -29,8 +25,8 @@ function commit(
     {
       mutation,
       variables: {
-        token: {
-          idToken,
+        input: {
+          auth0: { idToken },
         },
       },
 
@@ -43,3 +39,4 @@ function commit(
 }
 
 export default {commit};
+  

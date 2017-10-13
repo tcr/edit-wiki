@@ -1,0 +1,983 @@
+﻿type AddToTodoOnUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  userUser: User
+  todosTodo: Todo
+  userUserEdge: UserEdge
+  todosTodoEdge: TodoEdge
+}
+
+input AddToTodoOnUserUserInput {
+  todosTodoId: ID!
+  userUserId: ID!
+  clientMutationId: String!
+}
+
+input AUTH_PROVIDER_AUTH0 {
+  # Is returned when calling any of the Auth0 functions which invoke
+  # authentication. This includes calls to the Lock widget, to the auth0.js
+  # library, or the libraries for other languages. See
+  # https://auth0.com/docs/tokens/id_token for more detail
+  idToken: String!
+}
+
+input AuthProviderSignupData {
+  auth0: AUTH_PROVIDER_AUTH0
+}
+
+input CreateFile {
+  name: String!
+}
+
+input CreateFileInput {
+  name: String!
+  clientMutationId: String!
+}
+
+type CreateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input CreateTodo {
+  complete: Boolean
+  text: String
+  userId: ID
+}
+
+input CreateTodoInput {
+  complete: Boolean
+  text: String
+  userId: ID
+  clientMutationId: String!
+}
+
+type CreateTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+  user: User
+}
+
+input CreateUser {
+  todosIds: [ID!]
+  todos: [UsertodosTodo!]
+}
+
+# If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
+type CreateUserPayload {
+  user: User
+  clientMutationId: String
+  viewer: Viewer!
+}
+
+scalar DateTime
+
+input DeleteFileInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+  deletedId: ID
+}
+
+input DeleteTodoInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+  user: User
+  deletedId: ID
+}
+
+input DeleteUserInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+  deletedId: ID
+}
+
+type File implements Node {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  secret: String!
+  size: Int!
+  updatedAt: DateTime!
+  url: String!
+}
+
+# A connection to a list of items.
+type FileConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [FileEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type FileEdge {
+  # The item at the end of the edge.
+  node: File!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input FileFilter {
+  # Logical AND on all given filters.
+  AND: [FileFilter!]
+
+  # Logical OR on all given filters.
+  OR: [FileFilter!]
+  contentType: String
+
+  # All values that are not equal to given value.
+  contentType_not: String
+
+  # All values that are contained in given list.
+  contentType_in: [String!]
+
+  # All values that are not contained in given list.
+  contentType_not_in: [String!]
+
+  # All values less than the given value.
+  contentType_lt: String
+
+  # All values less than or equal the given value.
+  contentType_lte: String
+
+  # All values greater than the given value.
+  contentType_gt: String
+
+  # All values greater than or equal the given value.
+  contentType_gte: String
+
+  # All values containing the given string.
+  contentType_contains: String
+
+  # All values not containing the given string.
+  contentType_not_contains: String
+
+  # All values starting with the given string.
+  contentType_starts_with: String
+
+  # All values not starting with the given string.
+  contentType_not_starts_with: String
+
+  # All values ending with the given string.
+  contentType_ends_with: String
+
+  # All values not ending with the given string.
+  contentType_not_ends_with: String
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  secret: String
+
+  # All values that are not equal to given value.
+  secret_not: String
+
+  # All values that are contained in given list.
+  secret_in: [String!]
+
+  # All values that are not contained in given list.
+  secret_not_in: [String!]
+
+  # All values less than the given value.
+  secret_lt: String
+
+  # All values less than or equal the given value.
+  secret_lte: String
+
+  # All values greater than the given value.
+  secret_gt: String
+
+  # All values greater than or equal the given value.
+  secret_gte: String
+
+  # All values containing the given string.
+  secret_contains: String
+
+  # All values not containing the given string.
+  secret_not_contains: String
+
+  # All values starting with the given string.
+  secret_starts_with: String
+
+  # All values not starting with the given string.
+  secret_not_starts_with: String
+
+  # All values ending with the given string.
+  secret_ends_with: String
+
+  # All values not ending with the given string.
+  secret_not_ends_with: String
+  size: Int
+
+  # All values that are not equal to given value.
+  size_not: Int
+
+  # All values that are contained in given list.
+  size_in: [Int!]
+
+  # All values that are not contained in given list.
+  size_not_in: [Int!]
+
+  # All values less than the given value.
+  size_lt: Int
+
+  # All values less than or equal the given value.
+  size_lte: Int
+
+  # All values greater than the given value.
+  size_gt: Int
+
+  # All values greater than or equal the given value.
+  size_gte: Int
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  url: String
+
+  # All values that are not equal to given value.
+  url_not: String
+
+  # All values that are contained in given list.
+  url_in: [String!]
+
+  # All values that are not contained in given list.
+  url_not_in: [String!]
+
+  # All values less than the given value.
+  url_lt: String
+
+  # All values less than or equal the given value.
+  url_lte: String
+
+  # All values greater than the given value.
+  url_gt: String
+
+  # All values greater than or equal the given value.
+  url_gte: String
+
+  # All values containing the given string.
+  url_contains: String
+
+  # All values not containing the given string.
+  url_not_contains: String
+
+  # All values starting with the given string.
+  url_starts_with: String
+
+  # All values not starting with the given string.
+  url_not_starts_with: String
+
+  # All values ending with the given string.
+  url_ends_with: String
+
+  # All values not ending with the given string.
+  url_not_ends_with: String
+}
+
+enum FileOrderBy {
+  contentType_ASC
+  contentType_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  secret_ASC
+  secret_DESC
+  size_ASC
+  size_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  url_ASC
+  url_DESC
+}
+
+type Mutation {
+  createFile(input: CreateFileInput!): CreateFilePayload
+  createTodo(input: CreateTodoInput!): CreateTodoPayload
+  updateFile(input: UpdateFileInput!): UpdateFilePayload
+  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
+  updateUser(input: UpdateUserInput!): UpdateUserPayload
+  updateOrCreateFile(input: UpdateOrCreateFileInput!): UpdateOrCreateFilePayload
+  updateOrCreateTodo(input: UpdateOrCreateTodoInput!): UpdateOrCreateTodoPayload
+  updateOrCreateUser(input: UpdateOrCreateUserInput!): UpdateOrCreateUserPayload
+  deleteFile(input: DeleteFileInput!): DeleteFilePayload
+  deleteTodo(input: DeleteTodoInput!): DeleteTodoPayload
+  deleteUser(input: DeleteUserInput!): DeleteUserPayload
+  addToTodoOnUser(input: AddToTodoOnUserUserInput!): AddToTodoOnUserPayload
+  signinUser(input: SigninUserInput!): SigninPayload!
+  createUser(input: SignupUserInput!): CreateUserPayload!
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  viewer: Viewer!
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+# If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
+type SigninPayload {
+  token: String
+  user: User
+  clientMutationId: String
+  viewer: Viewer!
+}
+
+input SigninUserInput {
+  auth0: AUTH_PROVIDER_AUTH0
+  clientMutationId: String!
+}
+
+input SignupUserInput {
+  todosIds: [ID!]
+  todos: [UsertodosTodo!]
+  clientMutationId: String!
+  authProvider: AuthProviderSignupData!
+}
+
+type Todo implements Node {
+  complete: Boolean
+  createdAt: DateTime!
+  id: ID!
+  text: String
+  updatedAt: DateTime!
+  user(filter: UserFilter): User!
+}
+
+# A connection to a list of items.
+type TodoConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [TodoEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type TodoEdge {
+  # The item at the end of the edge.
+  node: Todo!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input TodoFilter {
+  # Logical AND on all given filters.
+  AND: [TodoFilter!]
+
+  # Logical OR on all given filters.
+  OR: [TodoFilter!]
+  complete: Boolean
+
+  # All values that are not equal to given value.
+  complete_not: Boolean
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  text: String
+
+  # All values that are not equal to given value.
+  text_not: String
+
+  # All values that are contained in given list.
+  text_in: [String!]
+
+  # All values that are not contained in given list.
+  text_not_in: [String!]
+
+  # All values less than the given value.
+  text_lt: String
+
+  # All values less than or equal the given value.
+  text_lte: String
+
+  # All values greater than the given value.
+  text_gt: String
+
+  # All values greater than or equal the given value.
+  text_gte: String
+
+  # All values containing the given string.
+  text_contains: String
+
+  # All values not containing the given string.
+  text_not_contains: String
+
+  # All values starting with the given string.
+  text_starts_with: String
+
+  # All values not starting with the given string.
+  text_not_starts_with: String
+
+  # All values ending with the given string.
+  text_ends_with: String
+
+  # All values not ending with the given string.
+  text_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  user: UserFilter
+}
+
+enum TodoOrderBy {
+  complete_ASC
+  complete_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input UpdateFile {
+  id: ID!
+  name: String
+}
+
+input UpdateFileInput {
+  id: ID!
+  name: String
+  clientMutationId: String!
+}
+
+type UpdateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input UpdateOrCreateFileInput {
+  update: UpdateFile!
+  create: CreateFile!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input UpdateOrCreateTodoInput {
+  update: UpdateTodo!
+  create: CreateTodo!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+  user: User
+}
+
+input UpdateOrCreateUserInput {
+  update: UpdateUser!
+  create: CreateUser!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+}
+
+input UpdateTodo {
+  complete: Boolean
+  id: ID!
+  text: String
+  userId: ID
+}
+
+input UpdateTodoInput {
+  complete: Boolean
+  id: ID!
+  text: String
+  userId: ID
+  clientMutationId: String!
+}
+
+type UpdateTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+  user: User
+}
+
+input UpdateUser {
+  id: ID!
+  todosIds: [ID!]
+  todos: [UsertodosTodo!]
+}
+
+input UpdateUserInput {
+  id: ID!
+  todosIds: [ID!]
+  todos: [UsertodosTodo!]
+  clientMutationId: String!
+}
+
+type UpdateUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+}
+
+type User implements Node {
+  auth0UserId: String
+  createdAt: DateTime!
+  id: ID!
+  todos(filter: TodoFilter, orderBy: TodoOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type UserConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type UserEdge {
+  # The item at the end of the edge.
+  node: User!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input UserFilter {
+  # Logical AND on all given filters.
+  AND: [UserFilter!]
+
+  # Logical OR on all given filters.
+  OR: [UserFilter!]
+  auth0UserId: String
+
+  # All values that are not equal to given value.
+  auth0UserId_not: String
+
+  # All values that are contained in given list.
+  auth0UserId_in: [String!]
+
+  # All values that are not contained in given list.
+  auth0UserId_not_in: [String!]
+
+  # All values less than the given value.
+  auth0UserId_lt: String
+
+  # All values less than or equal the given value.
+  auth0UserId_lte: String
+
+  # All values greater than the given value.
+  auth0UserId_gt: String
+
+  # All values greater than or equal the given value.
+  auth0UserId_gte: String
+
+  # All values containing the given string.
+  auth0UserId_contains: String
+
+  # All values not containing the given string.
+  auth0UserId_not_contains: String
+
+  # All values starting with the given string.
+  auth0UserId_starts_with: String
+
+  # All values not starting with the given string.
+  auth0UserId_not_starts_with: String
+
+  # All values ending with the given string.
+  auth0UserId_ends_with: String
+
+  # All values not ending with the given string.
+  auth0UserId_not_ends_with: String
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  todos_every: TodoFilter
+  todos_some: TodoFilter
+  todos_none: TodoFilter
+}
+
+enum UserOrderBy {
+  auth0UserId_ASC
+  auth0UserId_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input UsertodosTodo {
+  complete: Boolean
+  text: String
+}
+
+# This is the famous Relay viewer object
+type Viewer {
+  allFiles(filter: FileFilter, orderBy: FileOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
+  allTodoes(filter: TodoFilter, orderBy: TodoOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection!
+  allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user: User
+  File(id: ID, secret: String, url: String): File
+  Todo(id: ID): Todo
+  User(auth0UserId: String, id: ID): User
+  id: ID!
+}

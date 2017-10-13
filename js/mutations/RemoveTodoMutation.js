@@ -7,28 +7,24 @@ import {ConnectionHandler} from 'relay-runtime';
 const mutation = graphql`
   mutation RemoveTodoMutation($input: DeleteTodoInput!) {
     deleteTodo(input: $input) {
-      changedTodo {
+      todo {
         id
       }
       viewer {
-        id
         user {
-          completedTodos: todos(
-            where: { complete: { eq: true } }
+          id
+          incompleteTodos: todos(
+            first: 1000
           ) {
-            aggregations {
-              count
-            }
+            count
           }
-          todos(
-            first: 2147483647  # max GraphQLInt
+          completedTodos: todos(
+            filter: { complete: true }
           ) {
-            aggregations {
-              count
-            }
+            count
           }
         }
-      },
+      }
     }
   }
 `;
@@ -38,6 +34,7 @@ function sharedUpdater(store, user, deletedID) {
   const conn = ConnectionHandler.getConnection(
     userProxy,
     'TodoList_todos',
+    {orderBy: 'createdAt_DESC'},
   );
   ConnectionHandler.deleteNode(
     conn,
@@ -55,12 +52,14 @@ function commit(
     {
       mutation,
       variables: {
-        input: {id: todo.id},
+        input: {
+          id: todo.id
+        },
       },
 
       updater: (store) => {
         const payload = store.getRootField('deleteTodo');
-        const id = payload.getLinkedRecord('changedTodo').getValue('id');
+        const id = payload.getLinkedRecord('todo').getValue('id');
         sharedUpdater(store, user, id);
       },
 
@@ -73,15 +72,11 @@ function commit(
           viewer: {
             user: {
               id: user.id,
-              todos: {
-                aggregations: {
-                  count: user.todos.aggregations.count - 1,
-                }
+              incompleteTodos: {
+                count: user.incompleteTodos.count - 1,
               },
               completedTodos: {
-                aggregations: {
-                  count: user.completedTodos.aggregations.count - (todo.complete ? 1 : 0),
-                }
+                count: user.completedTodos.count - (todo.complete ? 1 : 0),
               }
             }
           }

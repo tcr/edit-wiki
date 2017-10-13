@@ -10,14 +10,15 @@ class TodoListFooter extends React.Component {
   _handleRemoveCompletedTodosClick = () => {
     RemoveAllTodosMutation.commit(
       this.props.relay.environment,
-      this.props.viewer.todos.edges.map(edge => edge.node).filter(node => node.complete),
+      this.props.viewer.todos.edges
+        .map(edge => edge.node).filter(node => node.complete),
       this.props.viewer,
     );
   };
 
   render() {
-    const numCompletedTodos = this.props.viewer.completedTodos.aggregations.count;
-    const numRemainingTodos = this.props.viewer.todos.aggregations.count - numCompletedTodos;
+    const numCompletedTodos = this.props.viewer.completedTodos.count;
+    const numRemainingTodos = this.props.viewer.incompleteTodos.count - numCompletedTodos;
     return (
       <footer className="footer">
         <span className="todo-count">
@@ -41,7 +42,8 @@ export default createFragmentContainer(
     fragment TodoListFooter_viewer on User {
       id
       todos(
-        first: 2147483647  # max GraphQLInt
+        first: 1000
+        orderBy: createdAt_DESC
       ) @connection(key: "TodoList_todos") {
         edges {
           node {
@@ -49,18 +51,18 @@ export default createFragmentContainer(
             complete
           }
         }
-        aggregations {
-          count
-        }
+      }
+      incompleteTodos: todos(
+        first: 1000
+      ) {
+        count
       }
       completedTodos: todos(
-        where: {
-          complete: {eq: true}
+        filter: {
+          complete: true
         }
       ) {
-        aggregations {
-          count
-        }
+        count
       },
     }
   `

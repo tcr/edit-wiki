@@ -6,7 +6,7 @@ import {
 const mutation = graphql`
   mutation RenameTodoMutation($input: UpdateTodoInput!) {
     updateTodo(input: $input) {
-      changedTodo {
+      todo {
         id
         text
       }
@@ -17,7 +17,7 @@ const mutation = graphql`
 function getOptimisticResponse(text, todo) {
   return {
     updateTodo: {
-      changedTodo: {
+      todo: {
         id: todo.id,
         text: text,
       },
@@ -35,7 +35,10 @@ function commit(
     {
       mutation,
       variables: {
-        input: {text, id: todo.id},
+        input: {
+          text,
+          id: todo.id,
+        },
       },
       optimisticResponse: getOptimisticResponse(text, todo),
     }

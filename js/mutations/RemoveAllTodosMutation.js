@@ -8,25 +8,21 @@ import {
   const mutation = graphql`
     mutation RemoveAllTodosMutation($__template_input: DeleteTodoInput!) {
       __template: deleteTodo(input: $__template_input) {
-        changedTodo {
+        todo {
           id
         }
         viewer {
-          id
           user {
-            completedTodos: todos(
-              where: { complete: { eq: true } }
+            id
+            incompleteTodos: todos(
+              first: 1000
             ) {
-              aggregations {
-                count
-              }
+              count
             }
-            todos(
-              first: 2147483647  # max GraphQLInt
+            completedTodos: todos(
+              filter: { complete: true }
             ) {
-              aggregations {
-                count
-              }
+              count
             }
           }
         },
@@ -39,6 +35,7 @@ import {
     const conn = ConnectionHandler.getConnection(
       userProxy,
       'TodoList_todos',
+      {orderBy: 'createdAt_DESC'},
     );
     ConnectionHandler.deleteNode(
       conn,
@@ -56,11 +53,13 @@ import {
       mutation,
       todos,
       (todo) => ({
-        variables: {id: todo.id},
+        variables: {
+          id: todo.id
+        },
   
         updater: (store) => {
           const payload = store.getRoot().getLinkedRecord('deleteTodo', {input: {id: todo.id}});
-          const id = payload.getLinkedRecord('changedTodo').getValue('id');
+          const id = payload.getLinkedRecord('todo').getValue('id');
           sharedUpdater(store, user, id);
         },
   
@@ -73,15 +72,11 @@ import {
             viewer: {
               user: {
                 id: user.id,
-                todos: {
-                  aggregations: {
-                    count: user.todos.aggregations.count - 1,
-                  }
+                incompleteTodos: {
+                  count: user.incompleteTodos.count - 1,
                 },
                 completedTodos: {
-                  aggregations: {
-                    count: user.completedTodos.aggregations.count - (todo.complete ? 1 : 0),
-                  }
+                  count: user.completedTodos.count - (todo.complete ? 1 : 0),
                 }
               }
             }
