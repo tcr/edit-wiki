@@ -98,17 +98,19 @@ export default createFragmentContainer(Todo, {
     }
   `,
   viewer: graphql`
-    fragment Todo_viewer on User {
-      id
-      incompleteTodos: todos(
-        first: 1000
-      ) {
-        count
-      }
-      completedTodos: todos(
-        filter: {complete: true}
-      ) {
-        count
+    fragment Todo_viewer on Viewer {
+      user {
+        id
+        incompleteTodos: todos(
+          first: 1000
+        ) {
+          count
+        }
+        completedTodos: todos(
+          filter: {complete: true}
+        ) {
+          count
+        }
       }
     }
   `,

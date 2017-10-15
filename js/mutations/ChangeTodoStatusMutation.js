@@ -24,12 +24,12 @@ const mutation = graphql`
   }
 `;
 
-function getOptimisticResponse(complete, todo, user) {
-  const viewerPayload = {id: user.id};
-  if (user.completedTodos != null) {
-    viewerPayload.completedTodos = {"count": complete ?
-      user.completedTodos.count + 1 :
-      user.completedTodos.count - 1 };
+function getOptimisticResponse(complete, todo, viewer) {
+  const userPayload = {id: viewer.user.id};
+  if (viewer.user.completedTodos != null) {
+    userPayload.completedTodos = {"count": complete ?
+      viewer.user.completedTodos.count + 1 :
+      viewer.user.completedTodos.count - 1 };
   }
   return {
     updateTodo: {
@@ -38,7 +38,7 @@ function getOptimisticResponse(complete, todo, user) {
         complete,
       },
       viewer: {
-        user: viewerPayload
+        user: userPayload
       },
     },
   };
@@ -48,7 +48,7 @@ function commit(
   environment,
   complete,
   todo,
-  user,
+  viewer,
 ) {
   return commitMutation(
     environment,
@@ -60,7 +60,7 @@ function commit(
           id: todo.id,
         },
       },
-      optimisticResponse: getOptimisticResponse(complete, todo, user),
+      optimisticResponse: getOptimisticResponse(complete, todo, viewer),
     }
   );
 }

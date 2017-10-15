@@ -27,7 +27,7 @@ const mutation = graphql`
   }
 `;
 
-function getOptimisticResponse(complete, todo, todos, user) {
+function getOptimisticResponse(complete, todo, todos, viewer) {
   return {
     todo: {
       id: todo.id,
@@ -35,7 +35,7 @@ function getOptimisticResponse(complete, todo, todos, user) {
     },
     viewer: {
       user: {
-        id: user.id,
+        id: viewer.user.id,
         completedTodos: {
           count: complete ? todos.length : 0,
         },
@@ -48,7 +48,7 @@ function commit(
   environment,
   complete,
   todos,
-  user,
+  viewer,
 ) {
   return commitMutationBatch(
     environment,
@@ -59,7 +59,7 @@ function commit(
         complete,
         id: todo.id,
       },
-      optimisticResponse: getOptimisticResponse(complete, todo, todos, user),
+      optimisticResponse: getOptimisticResponse(complete, todo, todos, viewer),
     }),
   );
 }

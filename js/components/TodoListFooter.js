@@ -10,15 +10,15 @@ class TodoListFooter extends React.Component {
   _handleRemoveCompletedTodosClick = () => {
     RemoveAllTodosMutation.commit(
       this.props.relay.environment,
-      this.props.viewer.todos.edges
+      this.props.viewer.user.todos.edges
         .map(edge => edge.node).filter(node => node.complete),
       this.props.viewer,
     );
   };
 
   render() {
-    const numCompletedTodos = this.props.viewer.completedTodos.count;
-    const numRemainingTodos = this.props.viewer.incompleteTodos.count - numCompletedTodos;
+    const numCompletedTodos = this.props.viewer.user.completedTodos.count;
+    const numRemainingTodos = this.props.viewer.user.incompleteTodos.count - numCompletedTodos;
     return (
       <footer className="footer">
         <span className="todo-count">
@@ -39,31 +39,33 @@ class TodoListFooter extends React.Component {
 export default createFragmentContainer(
   TodoListFooter,
   graphql`
-    fragment TodoListFooter_viewer on User {
-      id
-      todos(
-        first: 1000
-        orderBy: createdAt_DESC
-      ) @connection(key: "TodoList_todos") {
-        edges {
-          node {
-            id
-            complete
+    fragment TodoListFooter_viewer on Viewer {
+      user {
+        id
+        todos(
+          first: 1000
+          orderBy: createdAt_DESC
+        ) @connection(key: "TodoList_todos") {
+          edges {
+            node {
+              id
+              complete
+            }
           }
         }
-      }
-      incompleteTodos: todos(
-        first: 1000
-      ) {
-        count
-      }
-      completedTodos: todos(
-        filter: {
-          complete: true
+        incompleteTodos: todos(
+          first: 1000
+        ) {
+          count
         }
-      ) {
-        count
-      },
+        completedTodos: todos(
+          filter: {
+            complete: true
+          }
+        ) {
+          count
+        },
+      }
     }
   `
 );

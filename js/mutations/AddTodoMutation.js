@@ -34,8 +34,8 @@ const mutation = graphql`
   }
 `;
 
-function sharedUpdater(store, user, newEdge) {
-  const userProxy = store.get(user.id);
+function sharedUpdater(store, viewer, newEdge) {
+  const userProxy = store.get(viewer.user.id);
   const conn = ConnectionHandler.getConnection(
     userProxy,
     'TodoList_todos',
@@ -49,7 +49,7 @@ var tempID = 0;
 function commit(
   environment,
   text,
-  user
+  viewer
 ) {
   return commitMutation(
     environment,
@@ -57,7 +57,7 @@ function commit(
       mutation,
       variables: {
         input: {
-          userId: user.id,
+          userId: viewer.user.id,
           text,
         },
       },
@@ -65,7 +65,7 @@ function commit(
       updater: (store) => {
         const payload = store.getRootField('createTodo');
         const newEdge = payload.getLinkedRecord('edge');
-        sharedUpdater(store, user, newEdge);
+        sharedUpdater(store, viewer, newEdge);
       },
 
       optimisticUpdater: (store) => {
@@ -78,16 +78,16 @@ function commit(
           'TodoEdge',
         );
         newEdge.setLinkedRecord(node, 'node');
-        sharedUpdater(store, user, newEdge);
+        sharedUpdater(store, viewer, newEdge);
       },
 
       optimisticResponse: {
         createTodo: {
           viewer: {
             user: {
-              id: user.id,
+              id: viewer.user.id,
               incompleteTodos: {
-                count: user.incompleteTodos.count + 1,
+                count: viewer.user.incompleteTodos.count + 1,
               }
             }
           }

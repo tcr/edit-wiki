@@ -14,7 +14,15 @@ import 'todomvc-common';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import routes from './routes';
 import Auth from './auth';
+
+import BrowserProtocol from 'farce/lib/BrowserProtocol';
+import queryMiddleware from 'farce/lib/queryMiddleware';
+import createFarceRouter from 'found/lib/createFarceRouter';
+import createRender from 'found/lib/createRender';
+import { Resolver } from 'found-relay';
 
 import CreateUserMutation from './mutations/CreateUserMutation';
 import LoginUserMutation from './mutations/LoginUserMutation';
@@ -73,7 +81,7 @@ function fetchQuery(
 
 const network = Network.create(fetchQuery);
 
-const modernEnvironment = new Environment({
+const environment = new Environment({
   network,
   store: new Store(new RecordSource()),
 });
@@ -82,64 +90,15 @@ const auth = new Auth();
 auth.handleAuthentication();
 // auth.logout();
 
-class Root extends React.Component {
-  constructor(props) {
-    super(props);
+const Router = createFarceRouter({
+  historyProtocol: new BrowserProtocol(),
+  historyMiddlewares: [queryMiddleware],
+  routeConfig: routes,
 
-    this.state = {
-      authed: false,
-    };
-  }
-
-  render() {
-    if (auth.isAuthenticated()) {
-      // glob = `Bearer ${localStorage.getItem('id_token')}`;
-      console.log('-id_token->', localStorage.getItem('id_token'));
-      // if (!this.state.authed) {
-        // CreateUserMutation.commit(
-        //   modernEnvironment,
-        //   localStorage.getItem('id_token'),
-        //   () => {
-        //     this.setState({authed: true});
-        //   });
-        // return (
-        //   <div>Loading...</div>
-        // );
-      // } else {
-        return (
-          <QueryRenderer
-            environment={modernEnvironment}
-            query={graphql`
-              query appQuery {
-                viewer {
-                  user {
-                    ...TodoApp_viewer
-                  }
-                }
-              }
-            `}
-            variables={{}}
-            render={({error, props}) => {
-              if (props) {
-                return <TodoApp viewer={props.viewer.user} />;
-              } else {
-                return <div>Waiting on Relay...</div>;
-              }
-            }}
-          />
-        );
-      // }
-    } else {
-      return (
-        <div>
-          <button onClick={() => auth.login()}>Authenticate</button>
-        </div>
-      );
-    }
-  }
-}
+  render: createRender({}),
+});
 
 ReactDOM.render(
-  <Root />,
+  <Router resolver={new Resolver(environment)} />,
   mountNode,
 );

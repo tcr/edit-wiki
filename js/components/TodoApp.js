@@ -19,7 +19,8 @@ class TodoApp extends React.Component {
   };
 
   render() {
-    const hasTodos = this.props.viewer.incompleteTodos.count > 0;
+    console.log(this.props);
+    const hasTodos = this.props.viewer.user.incompleteTodos.count > 0;
     return (
       <div>
         <section className="todoapp">
@@ -37,7 +38,7 @@ class TodoApp extends React.Component {
           <TodoList viewer={this.props.viewer} />
           {hasTodos &&
             <TodoListFooter
-              todos={this.props.viewer.todos}
+              todos={this.props.viewer.user.todos}
               viewer={this.props.viewer}
             />
           }
@@ -63,12 +64,14 @@ class TodoApp extends React.Component {
 
 export default createFragmentContainer(TodoApp, {
   viewer: graphql`
-    fragment TodoApp_viewer on User {
-      id
-      incompleteTodos: todos(
-        first: 1000
-      ) {
-        count
+    fragment TodoApp_viewer on Viewer {
+      user {
+        id
+        incompleteTodos: todos(
+          first: 1000
+        ) {
+          count
+        }
       }
       ...TodoListFooter_viewer,
       ...TodoList_viewer,
