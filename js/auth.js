@@ -11,10 +11,10 @@ function getHashValue(key) {
 export default class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
-      domain: 'scaphold-relay-example.auth0.com',
-      clientID: 'nqRUTTSBWyXfAwFppmaXvmvhjAUzxREN',
-      redirectUri: 'http://localhost:4000/login',
-      audience: 'https://scaphold-relay-example.auth0.com/userinfo',
+      domain: process.env.AUTH0_DOMAIN,
+      clientID: process.env.AUTH0_CLIENT_ID,
+      redirectUri: process.env.AUTH0_REDIRECT,
+      audience: `https://${process.env.AUTH0_DOMAIN}/userinfo`,
       responseType: ['token', 'id_token'].join(' '),
       scope: ['openid', 'profile', 'email'].join(' '),
     });

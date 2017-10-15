@@ -26,7 +26,8 @@ export default makeRouteConfig(
   <Route
     path="/"
     Component={TodoApp}
-    query={TodoAppQuery}>
+    query={TodoAppQuery}
+  >
     {/* <Route
       Component={TodoList}
       query={TodoListQuery}

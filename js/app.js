@@ -55,7 +55,7 @@ function fetchQuery(
     });
   }
 
-  return fetch('https://api.graph.cool/relay/v1/cj8kg5jub004a0103tjgfa9y3', {
+  return fetch(process.env.GRAPHCOOL_RELAY, {
     method: 'POST',
     headers,
     body: JSON.stringify({
@@ -75,7 +75,6 @@ const environment = new Environment({
 });
 
 export const auth = new Auth();
-// auth.logout();
 
 const Router = createFarceRouter({
   historyProtocol: new BrowserProtocol(),
