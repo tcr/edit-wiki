@@ -3,6 +3,8 @@ import TodoList from './TodoList';
 import TodoListFooter from './TodoListFooter';
 import TodoTextInput from './TodoTextInput';
 
+import {auth} from '../app';
+
 import React from 'react';
 import {
   createFragmentContainer,
@@ -18,8 +20,20 @@ class TodoApp extends React.Component {
     );
   };
 
+  _isLogin() {
+    return this.props.location.pathname == '/login';
+  }
+
+  componentWillMount() {
+    if (this._isLogin()) {
+      auth.handleAuthentication();
+      window.location.href = '/';
+    } else if (!auth.isAuthenticated()) {
+      auth.login();
+    }
+  }
+
   render() {
-    console.log(this.props);
     const hasTodos = this.props.viewer.user.incompleteTodos.count > 0;
     return (
       <div>
@@ -55,7 +69,14 @@ class TodoApp extends React.Component {
           <p>
             Part of <a href="http://todomvc.com">TodoMVC</a>
           </p>
-          <button>Disconnect</button>
+          <button
+            onClick={() => {
+              auth.logout();
+              window.location.href = '/';
+            }}
+          >
+            Disconnect
+          </button>
         </footer>
       </div>
     );

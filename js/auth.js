@@ -13,7 +13,7 @@ export default class Auth {
     this.auth0 = new auth0.WebAuth({
       domain: 'scaphold-relay-example.auth0.com',
       clientID: 'nqRUTTSBWyXfAwFppmaXvmvhjAUzxREN',
-      redirectUri: 'http://localhost:4000/',
+      redirectUri: 'http://localhost:4000/login',
       audience: 'https://scaphold-relay-example.auth0.com/userinfo',
       responseType: ['token', 'id_token'].join(' '),
       scope: ['openid', 'profile', 'email'].join(' '),

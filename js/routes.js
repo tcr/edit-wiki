@@ -31,14 +31,14 @@ export default makeRouteConfig(
       Component={TodoList}
       query={TodoListQuery}
       prepareVariables={params => ({ ...params, status: 'any' })} /> */}
-    {/* <Route
-      path=":status"
-      Component={TodoList}
-      query={TodoListQuery}
-    /> */}
+    <Route
+      path="login"
+      Component={TodoApp}
+    />
   </Route>,
 );
 
+// prepareVariables={params => ({ ...params, login: true })}
 
 
 // class Root extends React.Component {
