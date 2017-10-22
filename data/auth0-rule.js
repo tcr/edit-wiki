@@ -43,7 +43,7 @@ function (user, context, callback) {
   function createUser(auth0UserId, cb)
   {
     var createUserMutation = '\
-      mutation { createUser(auth0UserId: "' + auth0UserId + ') { id } }';
+      mutation { createUser(auth0UserId: "' + auth0UserId + '") { id } }';
 
     return request
       .post({ url: 'https://api.graph.cool/simple/v1/' + projectId,
@@ -59,9 +59,9 @@ function (user, context, callback) {
     var generateTokenMutation = '\
       mutation {\
         generateUserToken(input:{\
-          pat:"' + pat + '", projectId:"' + projectId + '",\
-          userId:"' + userId + '", modelName:"User",\
-          clientMutationId:"static"\
+          pat: "' + pat + '", projectId: "' + projectId + '",\
+          userId: "' + userId + '", modelName: "User",\
+          clientMutationId: "static"\
         }) { token }\
       }';
 
