@@ -11,7 +11,7 @@ import {
   graphql,
 } from 'react-relay';
 
-class TodoApp extends React.Component {
+class App extends React.Component {
   _handleTextInputSave = (text) => {
     AddTodoMutation.commit(
       this.props.relay.environment,
@@ -85,7 +85,7 @@ class TodoApp extends React.Component {
 
 export default createFragmentContainer(TodoApp, {
   viewer: graphql`
-    fragment TodoApp_viewer on Viewer {
+    fragment App_viewer on Viewer {
       user {
         id
         incompleteTodos: todos(

@@ -26,8 +26,6 @@ import {
   Store,
 } from 'relay-runtime';
 
-import TodoApp from './components/TodoApp';
-
 const mountNode = document.getElementById('root');
 
 let glob = '';

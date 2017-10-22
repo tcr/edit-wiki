@@ -3,13 +3,13 @@ import Route from 'found/lib/Route';
 import React from 'react';
 import { graphql } from 'react-relay';
 
-import TodoApp from './components/TodoApp';
+import App from './components/App';
 import TodoList from './components/TodoList';
 
-const TodoAppQuery = graphql`
-  query routes_TodoApp_Query {
+const AppQuery = graphql`
+  query routes_App_Query {
     viewer {
-      ...TodoApp_viewer
+      ...App_viewer
     }
   }
 `;
@@ -25,8 +25,8 @@ const TodoListQuery = graphql`
 export default makeRouteConfig(
   <Route
     path="/"
-    Component={TodoApp}
-    query={TodoAppQuery}
+    Component={App}
+    query={AppQuery}
   >
     {/* <Route
       Component={TodoList}
@@ -34,7 +34,7 @@ export default makeRouteConfig(
       prepareVariables={params => ({ ...params, status: 'any' })} /> */}
     <Route
       path="login"
-      Component={TodoApp}
+      Component={App}
     />
   </Route>,
 );
