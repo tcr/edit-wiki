@@ -55,7 +55,8 @@ function fetchQuery(
     });
   }
 
-  return fetch(process.env.GRAPHCOOL_RELAY, {
+  return fetch(
+    `https://api.graph.cool/relay/v1/${process.env.GRAPHCOOL_PROJECT_ID}`, {
     method: 'POST',
     headers,
     body: JSON.stringify({

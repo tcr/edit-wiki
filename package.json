@@ -2,8 +2,9 @@
   "private": true,
   "scripts": {
     "start": "babel-node ./server.js",
-    "build": "relay-compiler --src ./js/ --schema ./relay.schema",
-    "update-schema": "babel-node ./scripts/updateSchema.js",
+    "build-relay": "relay-compiler --src ./js/ --schema ./relay.schema",
+    "build-webpack": "webpack",
+    "build": "npm run build-relay && npm run build-webpack",
     "lint": "eslint ./js"
   },
   "dependencies": {
