@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import routes from './routes';
 import Auth from './auth';
+import {fetchAuthenticatedQuery} from './graphcool';
 
 import BrowserProtocol from 'farce/lib/BrowserProtocol';
 import queryMiddleware from 'farce/lib/queryMiddleware';
@@ -26,62 +27,25 @@ import {
   Store,
 } from 'relay-runtime';
 
-const mountNode = document.getElementById('root');
+export const auth = new Auth();
 
-let glob = '';
-
-function fetchQuery(
-  operation,
-  variables,
-) {
-  // console.log(`Bearer ${localStorage.getItem('id_token')}`);
-  // operation.text = operation.text.replace(/\b(start|end)Cursor\b/g, '');
-
-  let headers = {
-    'Content-Type': 'application/json',
-  };
-  let glob = localStorage.getItem('graphcool_token');
-  if (glob != '' && glob) {
-    headers['Authorization'] = `Bearer ${glob}`;
-  }
-
-  let v = JSON.parse(JSON.stringify(variables));
-
-  if (operation.text.match(/^[\s\n\r]*mutation/)) {
-    Object.keys(variables).forEach((key) => {
-      v[key].clientMutationId = String('random:' + Math.random());
-    });
-  }
-
-  return fetch(
-    `https://api.graph.cool/relay/v1/${process.env.GRAPHCOOL_PROJECT_ID}`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      query: operation.text,
-      variables: v,
-    }),
-  }).then(response => {
-    return response.json();
-  });
-}
-
-const network = Network.create(fetchQuery);
+const network = Network.create((operation, variables) => {
+  return fetchAuthenticatedQuery(operation, variables, auth);
+});
 
 const environment = new Environment({
   network,
   store: new Store(new RecordSource()),
 });
 
-export const auth = new Auth();
-
 const Router = createFarceRouter({
   historyProtocol: new BrowserProtocol(),
   historyMiddlewares: [queryMiddleware],
   routeConfig: routes,
-
   render: createRender({}),
 });
+
+const mountNode = document.getElementById('root');
 
 ReactDOM.render(
   <Router resolver={new Resolver(environment)} />,

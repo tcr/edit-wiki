@@ -2,7 +2,7 @@ import {
   commitMutation,
   graphql,
 } from 'react-relay';
-import commitMutationBatch from '../batch';
+import {commitMutationBatch} from '../graphcool';
 
 const mutation = graphql`
   mutation MarkAllTodosMutation(

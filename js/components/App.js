@@ -83,7 +83,7 @@ class App extends React.Component {
   }
 }
 
-export default createFragmentContainer(TodoApp, {
+export default createFragmentContainer(App, {
   viewer: graphql`
     fragment App_viewer on Viewer {
       user {

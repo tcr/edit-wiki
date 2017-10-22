@@ -1,3 +1,5 @@
+// Methods required for Graphcool.
+
 import {
   commitMutation
 } from 'react-relay';
@@ -6,7 +8,41 @@ function clone(a) {
   return JSON.parse(JSON.stringify(a));
 }
 
-function commitMutationBatch(environment, mutation, list, callback) {
+
+export function fetchAuthenticatedQuery(
+  operation,
+  variables,
+  auth,
+) {
+  // Clone the variables set.
+  // Populate mutations with a random clientMutationId.
+  let vars = clone(variables);
+  if (operation.text.match(/^[\s\n\r]*mutation/)) {
+    Object.keys(vars).forEach((key) => {
+      vars[key].clientMutationId = String('random:' + Math.random());
+    });
+  }
+
+  return fetch(
+    `https://api.graph.cool/relay/v1/${process.env.GRAPHCOOL_PROJECT_ID}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': auth.header(),
+      },
+      body: JSON.stringify({
+        query: operation.text,
+        variables: vars,
+      }),
+    }
+  ).then(response => {
+    return response.json();
+  });
+}
+
+
+export function commitMutationBatch(environment, mutation, list, callback) {
   if (list.length === 0) {
     return;
   }
@@ -97,5 +133,3 @@ function commitMutationBatch(environment, mutation, list, callback) {
     }
   );
 }
-
-export default commitMutationBatch;

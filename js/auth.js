@@ -65,6 +65,11 @@ export default class Auth {
     // access token's expiry time
     // let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     // return new Date().getTime() < expiresAt;
-    return localStorage.getItem('graphcool_token') != null;
+    return !!(localStorage.getItem('graphcool_token'));
+  }
+
+  header() {
+    let token = localStorage.getItem('graphcool_token');
+    return token ? `Bearer ${token}` : '';
   }
 }
