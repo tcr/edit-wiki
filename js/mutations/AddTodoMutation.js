@@ -49,7 +49,10 @@ var tempID = 0;
 function commit(
   environment,
   text,
-  viewer
+  textID,
+  viewer,
+  
+  next // TODO remove
 ) {
   return commitMutation(
     environment,
@@ -59,6 +62,7 @@ function commit(
         input: {
           userId: viewer.user.id,
           text,
+          textID,
         },
       },
 
@@ -66,6 +70,7 @@ function commit(
         const payload = store.getRootField('createTodo');
         const newEdge = payload.getLinkedRecord('edge');
         sharedUpdater(store, viewer, newEdge);
+        next && next();
       },
 
       optimisticUpdater: (store) => {

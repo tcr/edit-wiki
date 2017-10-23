@@ -20,32 +20,17 @@ class TodoList extends React.Component {
 
   renderTodos() {
     return this.props.viewer.user.todos.edges.map(edge =>
-      <Todo
-        key={edge.node.id}
-        todo={edge.node}
-        viewer={this.props.viewer}
-      />
+      <li key={edge.node.id}>
+        <a href={`/${edge.node.textID}`}>/{edge.node.textID}</a>
+      </li>
     );
   }
 
   render() {
-    const numTodos = this.props.viewer.user.incompleteTodos.count;
-    const numCompletedTodos = this.props.viewer.user.completedTodos.count;
     return (
-      <section className="main">
-        <input
-          checked={numTodos === numCompletedTodos && numTodos !== 0}
-          className="toggle-all"
-          onChange={this._handleMarkAllChange}
-          type="checkbox"
-        />
-        <label htmlFor="toggle-all">
-          Mark all as complete
-        </label>
-        <ul className="todo-list">
-          {this.renderTodos()}
-        </ul>
-      </section>
+      <ul id="sidebar-pages">
+        {this.renderTodos()}
+      </ul>
     );
   }
 }
@@ -54,7 +39,7 @@ export default createFragmentContainer(TodoList, {
   viewer: graphql`
     fragment TodoList_viewer on Viewer {
       user {
-        id,
+        id
         todos(
           first: 1000
           orderBy: createdAt_DESC
@@ -62,8 +47,7 @@ export default createFragmentContainer(TodoList, {
           edges {
             node {
               id
-              complete
-              ...Todo_todo
+              textID
             }
           }
         }

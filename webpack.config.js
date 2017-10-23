@@ -2,7 +2,7 @@ const Dotenv = require('dotenv-webpack');
 const path = require('path');
 
 module.exports = {
-  entry: ['whatwg-fetch', path.resolve(__dirname, 'js', 'app.js')],
+  entry: ['whatwg-fetch', path.resolve(__dirname, 'js', 'client.js')],
   module: {
     loaders: [
       {

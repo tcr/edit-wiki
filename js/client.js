@@ -1,5 +1,3 @@
-import 'todomvc-common';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -14,7 +12,6 @@ import createRender from 'found/lib/createRender';
 import { Resolver } from 'found-relay';
 
 import CreateUserMutation from './mutations/CreateUserMutation';
-import LoginUserMutation from './mutations/LoginUserMutation';
 
 import {
   QueryRenderer,
@@ -45,7 +42,7 @@ const Router = createFarceRouter({
   render: createRender({}),
 });
 
-const mountNode = document.getElementById('root');
+const mountNode = document.getElementById('client-mount');
 
 ReactDOM.render(
   <Router resolver={new Resolver(environment)} />,

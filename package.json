@@ -1,10 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "start": "babel-node ./server.js",
     "build-relay": "relay-compiler --src ./js/ --schema ./data/relay.schema",
     "build-webpack": "webpack",
     "build": "npm run build-relay && npm run build-webpack",
+    "watch-relay": "relay-compiler --src ./js/ --schema ./data/relay.schema --watch",
+    "watch-webpack": "webpack --watch",
     "lint": "eslint ./js"
   },
   "dependencies": {
@@ -27,7 +28,12 @@
     "found-relay": "^0.3.0-alpha.1",
     "graphql": "^0.10.0",
     "graphql-relay": "^0.5.1",
+    "highlight.js": "^8.9.1",
+    "html-entities": "^1.2.1",
+    "inline-web-worker": "^1.1.0",
     "jwt-decode": "^2.2.0",
+    "marked": "^0.3.6",
+    "mousetrap": "^1.6.1",
     "null-loader": "^0.1.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
@@ -37,7 +43,9 @@
     "todomvc-app-css": "^2.1.0",
     "todomvc-common": "^1.0.3",
     "webpack-dev-server": "^2.7.1",
-    "whatwg-fetch": "2.0.3"
+    "whatwg-fetch": "2.0.3",
+    "worker-loader": "^1.0.0",
+    "workerjs": "^0.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

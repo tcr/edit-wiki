@@ -13,18 +13,6 @@ input AddToTodoOnUserUserInput {
   clientMutationId: String!
 }
 
-input AUTH_PROVIDER_AUTH0 {
-  # Is returned when calling any of the Auth0 functions which invoke
-  # authentication. This includes calls to the Lock widget, to the auth0.js
-  # library, or the libraries for other languages. See
-  # https://auth0.com/docs/tokens/id_token for more detail
-  idToken: String!
-}
-
-input AuthProviderSignupData {
-  auth0: AUTH_PROVIDER_AUTH0
-}
-
 input CreateFile {
   name: String!
 }
@@ -44,13 +32,17 @@ type CreateFilePayload {
 input CreateTodo {
   complete: Boolean
   text: String
+  textID: String!
   userId: ID
+  user: TodouserUser
 }
 
 input CreateTodoInput {
   complete: Boolean
   text: String
+  textID: String!
   userId: ID
+  user: TodouserUser
   clientMutationId: String!
 }
 
@@ -63,6 +55,7 @@ type CreateTodoPayload {
 }
 
 input CreateUser {
+  auth0UserId: String
   todosIds: [ID!]
   todos: [UsertodosTodo!]
 }
@@ -454,7 +447,6 @@ type Mutation {
   deleteTodo(input: DeleteTodoInput!): DeleteTodoPayload
   deleteUser(input: DeleteUserInput!): DeleteUserPayload
   addToTodoOnUser(input: AddToTodoOnUserUserInput!): AddToTodoOnUserPayload
-  signinUser(input: SigninUserInput!): SigninPayload!
   createUser(input: SignupUserInput!): CreateUserPayload!
 }
 
@@ -489,31 +481,19 @@ type Query {
   ): Node
 }
 
-# If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
-type SigninPayload {
-  token: String
-  user: User
-  clientMutationId: String
-  viewer: Viewer!
-}
-
-input SigninUserInput {
-  auth0: AUTH_PROVIDER_AUTH0
-  clientMutationId: String!
-}
-
 input SignupUserInput {
+  auth0UserId: String
   todosIds: [ID!]
   todos: [UsertodosTodo!]
   clientMutationId: String!
-  authProvider: AuthProviderSignupData!
 }
 
 type Todo implements Node {
-  complete: Boolean
+  complete: Boolean!
   createdAt: DateTime!
   id: ID!
   text: String
+  textID: String!
   updatedAt: DateTime!
   user(filter: UserFilter): User!
 }
@@ -651,6 +631,46 @@ input TodoFilter {
 
   # All values not ending with the given string.
   text_not_ends_with: String
+  textID: String
+
+  # All values that are not equal to given value.
+  textID_not: String
+
+  # All values that are contained in given list.
+  textID_in: [String!]
+
+  # All values that are not contained in given list.
+  textID_not_in: [String!]
+
+  # All values less than the given value.
+  textID_lt: String
+
+  # All values less than or equal the given value.
+  textID_lte: String
+
+  # All values greater than the given value.
+  textID_gt: String
+
+  # All values greater than or equal the given value.
+  textID_gte: String
+
+  # All values containing the given string.
+  textID_contains: String
+
+  # All values not containing the given string.
+  textID_not_contains: String
+
+  # All values starting with the given string.
+  textID_starts_with: String
+
+  # All values not starting with the given string.
+  textID_not_starts_with: String
+
+  # All values ending with the given string.
+  textID_ends_with: String
+
+  # All values not ending with the given string.
+  textID_not_ends_with: String
   updatedAt: DateTime
 
   # All values that are not equal to given value.
@@ -685,8 +705,16 @@ enum TodoOrderBy {
   id_DESC
   text_ASC
   text_DESC
+  textID_ASC
+  textID_DESC
   updatedAt_ASC
   updatedAt_DESC
+}
+
+input TodouserUser {
+  auth0UserId: String
+  todosIds: [ID!]
+  todos: [UsertodosTodo!]
 }
 
 input UpdateFile {
@@ -751,14 +779,18 @@ input UpdateTodo {
   complete: Boolean
   id: ID!
   text: String
+  textID: String
   userId: ID
+  user: TodouserUser
 }
 
 input UpdateTodoInput {
   complete: Boolean
   id: ID!
   text: String
+  textID: String
   userId: ID
+  user: TodouserUser
   clientMutationId: String!
 }
 
@@ -771,12 +803,14 @@ type UpdateTodoPayload {
 }
 
 input UpdateUser {
+  auth0UserId: String
   id: ID!
   todosIds: [ID!]
   todos: [UsertodosTodo!]
 }
 
 input UpdateUserInput {
+  auth0UserId: String
   id: ID!
   todosIds: [ID!]
   todos: [UsertodosTodo!]
@@ -968,6 +1002,7 @@ enum UserOrderBy {
 input UsertodosTodo {
   complete: Boolean
   text: String
+  textID: String!
 }
 
 # This is the famous Relay viewer object
@@ -977,7 +1012,7 @@ type Viewer {
   allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   user: User
   File(id: ID, secret: String, url: String): File
-  Todo(id: ID): Todo
+  Todo(id: ID, textID: String): Todo
   User(auth0UserId: String, id: ID): User
   id: ID!
 }
