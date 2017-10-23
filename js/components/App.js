@@ -6,7 +6,7 @@ import TodoTextInput from './TodoTextInput';
 
 import {auth} from '../client';
 
-import Mousetrap from 'Mousetrap';
+import Mousetrap from 'mousetrap';
 import React from 'react';
 
 import {

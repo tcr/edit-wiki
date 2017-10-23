@@ -5,7 +5,7 @@ import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
 import RenameTodoMutation from '../mutations/RenameTodoMutation';
 import TodoTextInput from './TodoTextInput';
 
-import Mousetrap from 'Mousetrap';
+import Mousetrap from 'mousetrap';
 
 import React from 'react';
 import {
