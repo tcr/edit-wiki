@@ -1,5 +1,6 @@
 .DS_Store
 __generated__/
 .env
+config
 node_modules/
 public/app.js

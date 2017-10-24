@@ -19,9 +19,13 @@ class TodoList extends React.Component {
   };
 
   renderTodos() {
-    return this.props.viewer.user.todos.edges.map(edge =>
-      <li key={edge.node.id}>
-        <a href={`/${edge.node.textID}`}>/{edge.node.textID}</a>
+    let list = this.props.viewer.user.todos.edges.map(edge => edge.node);
+    list.sort((a, b) => {
+      return b.textID < a.textID;
+    });
+    return list.map(node =>
+      <li key={node.id}>
+        <a href={`/${node.textID}`}>/{node.textID}</a>
       </li>
     );
   }
