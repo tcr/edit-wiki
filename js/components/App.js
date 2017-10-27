@@ -15,6 +15,10 @@ import {
 } from 'react-relay';
 import classnames from 'classnames';
 
+function getOrientation() {
+  return screen.width > screen.height ? 'landscape' : 'portrait';
+}
+
 class App extends React.Component {
   _handleTextInputSave = (text) => {
     AddTodoMutation.commit(
@@ -31,8 +35,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log(getOrientation());
+
     this.state = {
       sidebarVisible: false,
+      orientation: getOrientation(),
     };
   }
 
@@ -67,7 +74,9 @@ class App extends React.Component {
       const textID = window.location.pathname.replace(/^\/+|\/+$/g, '');
       AddTodoMutation.commit(
         this.props.relay.environment,
-        textID == '' ? '# Hello world!\n\nWelcome to edit.io. Hit ESC or go to a new page to create new pages.' : `# ${textID}`,
+        textID == '' ?
+          '# Hello world!\n\nWelcome to edit.io. Hit ESC or go to a new page to create new pages.' :
+          `# ${textID}`,
         textID,
         this.props.viewer,
         () => {
@@ -88,8 +97,8 @@ class App extends React.Component {
         id="app-root"
         className={classnames({
           'with-sidebar': this.state.sidebarVisible,
-          'desktop': false,
-          'mobile': true,
+          'landscape': this.state.orientation == 'landscape',
+          'portrait': this.state.orientation == 'portrait',
         })}
       >
         <button
@@ -98,6 +107,7 @@ class App extends React.Component {
             top: 0,
             right: 0,
             zIndex: 1000,
+            display: this.state.orientation == 'landscape' ? 'none' : 'block',
           }}
           id="lister"
           ref={lister => this.lister = lister}>
