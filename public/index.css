@@ -10,8 +10,14 @@ body {  background: black; }
 
 .landscape .column { width: 50%; float: left; height: 100%; overflow: auto; box-sizing: border-box; }
 
-.portrait #input-column { display: none; }
-.portrait #output-column { width: 100%; height: 100%; overflow: auto; box-sizing: border-box; }
+.portrait.mode-read #input-column,
+.portrait.mode-write #output-column {
+  display: none;
+}
+.portrait.mode-read #output-column,
+.portrait.mode-write #input-column {
+  width: 100%; height: 100%; overflow: auto; box-sizing: border-box;
+}
 
 #input, #output { width: 100%; box-sizing: border-box; }
 #sidebar, #output { font-family: Open Sans, Helvetica Neue, Helvetica, Arial; }

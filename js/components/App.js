@@ -40,6 +40,7 @@ class App extends React.Component {
     this.state = {
       sidebarVisible: false,
       orientation: getOrientation(),
+      mode: 'read',
     };
   }
 
@@ -99,6 +100,8 @@ class App extends React.Component {
           'with-sidebar': this.state.sidebarVisible,
           'landscape': this.state.orientation == 'landscape',
           'portrait': this.state.orientation == 'portrait',
+          'mode-read': this.state.mode == 'read',
+          'mode-write': this.state.mode == 'write',
         })}
       >
         <button
@@ -110,8 +113,25 @@ class App extends React.Component {
             display: this.state.orientation == 'landscape' ? 'none' : 'block',
           }}
           id="lister"
-          ref={lister => this.lister = lister}>
+          ref={lister => this.lister = lister}
+        >
           Open Menu
+        </button>
+        <button
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 0,
+            zIndex: 1000,
+            display: this.state.orientation == 'landscape' ? 'none' : 'block',
+          }}
+          onClick={() => {
+            this.setState({
+              mode: this.state.mode == 'read' ? 'write' : 'read',
+            })
+          }}
+        >
+          Toggle Read/Write
         </button>
         <div id="sidebar">
           <h1>edit.io</h1>
