@@ -6,6 +6,7 @@
     "build": "npm run build-relay && npm run build-webpack",
     "watch-relay": "relay-compiler --src ./js/ --schema ./data/relay.schema --watch",
     "watch-webpack": "webpack --watch",
+    "serve": "pushstate-server ./public 4000",
     "lint": "eslint ./js"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "mousetrap": "^1.6.1",
     "null-loader": "^0.1.1",
     "prop-types": "^15.5.10",
+    "pushstate-server": "^3.0.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-relay": "^1.4.0",
