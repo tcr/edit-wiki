@@ -69,6 +69,7 @@ class Todo extends React.Component {
   }
 
   componentDidMount() {
+    /*
     let myCodeMirror = CodeMirror(this.input, {
       value: this.state.text,
       mode: 'markdown',
@@ -94,25 +95,20 @@ class Todo extends React.Component {
       });
     }).bind(this);
 
-    this.output.innerHTML = marked.parse(this.state.text);
-
     myCodeMirror.on('change', function () {
       update(myCodeMirror.getValue(), myCodeMirror.getRange({line: 0, ch: 0}, myCodeMirror.getCursor() || {line: 0, ch: 0}))
     })
     myCodeMirror.on('cursorActivity', function () {
       update(myCodeMirror.getValue(), myCodeMirror.getRange({line: 0, ch: 0}, myCodeMirror.getCursor() || {line: 0, ch: 0}))
     })
+    */
+
+    this.output.innerHTML = marked.parse(this.state.text);
   }
 
   render() {
     return (
       <div id="content">
-        <div className="column">
-          <div
-            id="input"
-            ref={input => this.input = input}
-          />
-        </div>
         <div className="column" id="output-column">
           <div
             id="output"

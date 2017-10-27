@@ -56,6 +56,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.lister.addEventListener('click', () => {
+      this.setState({
+        sidebarVisible: !this.state.sidebarVisible,
+      });
+    });
+
     const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
     if (!pageExists) {
       const textID = window.location.pathname.replace(/^\/+|\/+$/g, '');
@@ -82,8 +88,21 @@ class App extends React.Component {
         id="app-root"
         className={classnames({
           'with-sidebar': this.state.sidebarVisible,
+          'desktop': false,
+          'mobile': true,
         })}
       >
+        <button
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            zIndex: 1000,
+          }}
+          id="lister"
+          ref={lister => this.lister = lister}>
+          Open Menu
+        </button>
         <div id="sidebar">
           <h1>edit.io</h1>
           <TodoList viewer={this.props.viewer} />

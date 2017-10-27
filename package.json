@@ -6,6 +6,7 @@
     "build": "npm run build-relay && npm run build-webpack",
     "watch-relay": "relay-compiler --src ./js/ --schema ./data/relay.schema --watch",
     "watch-webpack": "webpack --watch",
+    "watch": "concurrently --kill-others \"npm run watch-relay\" \"npm run watch-webpack\" \"npm run serve\"",
     "serve": "pushstate-server ./public 4000",
     "lint": "eslint ./js"
   },
@@ -52,6 +53,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "6.1.2",
+    "concurrently": "^3.5.0",
     "eslint": "3.19.0",
     "eslint-config-fbjs": "1.1.1",
     "eslint-plugin-babel": "3.3.0",
