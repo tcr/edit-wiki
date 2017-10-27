@@ -102,3 +102,7 @@ h1,h2,h3,h4,h5,h6 { margin-bottom: 0em; }
 overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
+
+code, pre, tt, kbd {
+	white-space: pre-wrap;
+}
