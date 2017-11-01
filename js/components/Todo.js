@@ -4,6 +4,7 @@ import ChangeTodoStatusMutation from '../mutations/ChangeTodoStatusMutation';
 import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
 import RenameTodoMutation from '../mutations/RenameTodoMutation';
 import TodoTextInput from './TodoTextInput';
+import marked from 'marked';
 
 import Mousetrap from 'mousetrap';
 
