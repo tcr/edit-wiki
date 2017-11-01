@@ -1,5 +1,5 @@
 import AddTodoMutation from '../mutations/AddTodoMutation';
-import Todo from './Todo';
+import {Todo, TodoBase} from './Todo';
 import TodoList from './TodoList';
 import TodoListFooter from './TodoListFooter';
 import TodoTextInput from './TodoTextInput';
@@ -19,7 +19,7 @@ function getOrientation() {
   return screen.width > screen.height ? 'landscape' : 'portrait';
 }
 
-class App extends React.Component {
+export class AppBase extends React.Component {
   _handleTextInputSave = (text) => {
     AddTodoMutation.commit(
       this.props.relay.environment,
@@ -70,29 +70,53 @@ class App extends React.Component {
       });
     });
 
-    const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
-    if (!pageExists) {
-      const textID = window.location.pathname.replace(/^\/+|\/+$/g, '');
-      AddTodoMutation.commit(
-        this.props.relay.environment,
-        textID == '' ?
-          '# Hello world!\n\nWelcome to edit.io. Hit ESC or go to a new page to create new pages.' :
-          `# ${textID}`,
-        textID,
-        this.props.viewer,
-        () => {
-          // TODO this should be a relay feature for sure
-          window.location.reload();
-        }
-      );
+    if (this.props.relay) {
+      const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
+      if (!pageExists) {
+        const textID = window.location.pathname.replace(/^\/+|\/+$/g, '');
+        AddTodoMutation.commit(
+          this.props.relay.environment,
+          textID == '' ?
+            '# Hello world!\n\nWelcome to edit.io. Hit ESC or go to a new page to create new pages.' :
+            `# ${textID}`,
+          textID,
+          this.props.viewer,
+          () => {
+            // TODO this should be a relay feature for sure
+            window.location.reload();
+          }
+        );
+      }
     }
   }
 
   render() {
-    const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
-    if (!pageExists) {
-      return <div className="warning" style={{color: "white"}}>Loading...</div>;
+    let sidebar = null;
+
+    let page = <TodoBase />;
+
+    if (this.props.relay) {
+      const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
+      if (!pageExists) {
+        return <div className="warning" style={{color: "white"}}>Loading...</div>;
+      }
+
+      sidebar = (
+        <div id="sidebar">
+          <h1>edit.io</h1>
+          <TodoList viewer={this.props.viewer} />
+        </div>
+      );
+
+      page = (
+        <Todo
+          key={this.props.relay ? this.props.viewer.user.currentPage.edges[0].node.id : null}
+          todo={this.props.relay ? this.props.viewer.user.currentPage.edges[0].node : null}
+          viewer={this.props.viewer}
+        />
+      );
     }
+
     return (
       <div
         id="app-root"
@@ -133,21 +157,14 @@ class App extends React.Component {
         >
           Toggle Read/Write
         </button>
-        <div id="sidebar">
-          <h1>edit.io</h1>
-          <TodoList viewer={this.props.viewer} />
-        </div>
-        <Todo
-          key={this.props.viewer.user.currentPage.edges[0].node.id}
-          todo={this.props.viewer.user.currentPage.edges[0].node}
-          viewer={this.props.viewer}
-        />
+        {sidebar}
+        {page}
       </div>
     );
   }
 }
 
-export default createFragmentContainer(App, {
+export let App = createFragmentContainer(AppBase, {
   viewer: graphql`
     fragment App_viewer on Viewer {
       user {

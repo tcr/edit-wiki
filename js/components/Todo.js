@@ -16,7 +16,7 @@ import classnames from 'classnames';
 
 const worker = new RenderWorker();
 
-class Todo extends React.Component {
+export class TodoBase extends React.Component {
   state = {
     text: '',
   };
@@ -40,10 +40,17 @@ class Todo extends React.Component {
 
     setInterval(this._pushUpdates.bind(this), 3000);
 
-    this.state = {
-      text: props.todo.text,
-      savedText: props.todo.text,
-    };
+    if (this.props.relay) {
+      this.state = {
+        text: props.todo.text,
+        savedText: props.todo.text,
+      };
+    } else {
+      this.state = {
+        text: '# Loading...',
+        savedText: '# Loading...',
+      };
+    }
   }
 
   _removeTodo() {
@@ -74,6 +81,10 @@ class Todo extends React.Component {
       mode: 'markdown',
       theme: 'solarized dark',
       lineWrapping: true,
+
+      // Loading changes
+      readOnly: this.props.relay ? false : 'nocursor',
+      scrollbarStyle: this.props.relay ? 'native' : 'null',
 
       extraKeys: {
         Esc: () => {
@@ -113,7 +124,13 @@ class Todo extends React.Component {
             ref={input => this.input = input}
           />
         </div>
-        <div className="column" id="output-column">
+        <div
+          className={classnames({
+            'column': true,
+            'disabled': !this.props.relay,
+          })}
+          id="output-column"
+        >
           <div
             id="output"
             ref={output => this.output = output}
@@ -121,42 +138,10 @@ class Todo extends React.Component {
         </div>
       </div>
     );
-
-    // <li
-    //   className={classnames({
-    //     completed: this.props.todo.complete,
-    //     editing: this.state.isEditing,
-    //   })}>
-    //   <div className="view">
-    //     <input
-    //       checked={this.props.todo.complete}
-    //       className="toggle"
-    //       onChange={(e) => {
-    //         const complete = e.target.checked;
-    //         ChangeTodoStatusMutation.commit(
-    //           this.props.relay.environment,
-    //           complete,
-    //           this.props.todo,
-    //           this.props.viewer,
-    //         );
-    //       }}
-    //       type="checkbox"
-    //     />
-    //     <label
-    //       onDoubleClick={(e) => this._setEditMode(true)}>
-    //       {this.props.todo.text}
-    //     </label>
-    //     <button
-    //       className="destroy"
-    //       onClick={() => this._removeTodo()}
-    //     />
-    //   </div>
-    //   {this.state.isEditing && this.renderTextInput()}
-    // </li>
   }
 }
 
-export default createFragmentContainer(Todo, {
+export let Todo = createFragmentContainer(TodoBase, {
   todo: graphql`
     fragment Todo_todo on Todo {
       complete,

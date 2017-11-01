@@ -13,6 +13,8 @@ import { Resolver } from 'found-relay';
 
 import CreateUserMutation from './mutations/CreateUserMutation';
 
+import {AppBase} from './components/App';
+
 import {
   QueryRenderer,
   graphql,
@@ -39,7 +41,16 @@ const Router = createFarceRouter({
   historyProtocol: new BrowserProtocol(),
   historyMiddlewares: [queryMiddleware],
   routeConfig: routes,
-  render: createRender({}),
+  render: createRender({
+    renderPending: () => {
+      console.log('---->', arguments);
+      return (
+        <AppBase
+          location={window.location}
+        />
+      );
+    },
+  }),
 });
 
 const mountNode = document.getElementById('client-mount');

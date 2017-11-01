@@ -3,7 +3,7 @@ import Route from 'found/lib/Route';
 import React from 'react';
 import { graphql } from 'react-relay';
 
-import App from './components/App';
+import {App} from './components/App';
 // import TodoList from './components/TodoList';
 
 const AppQuery = graphql`

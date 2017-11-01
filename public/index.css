@@ -19,6 +19,10 @@ body {  background: black; }
   width: 100%; height: 100%; overflow: auto; box-sizing: border-box;
 }
 
+#output-column.disabled {
+  color: rgba(0, 0, 0, 0.5);
+}
+
 #input, #output { width: 100%; box-sizing: border-box; }
 #sidebar, #output { font-family: Open Sans, Helvetica Neue, Helvetica, Arial; }
 #output { padding: 0 20px; }
@@ -31,7 +35,8 @@ body {  background: black; }
 	color: #eee;
 	height: 100%;
 	font-family: Inconsolata, Courier New, monospace;
-	padding: 10px 15px;
+  padding: 10px 15px;
+  box-sizing: border-box;
 }
 #input, #output { display: block; }
 #output pre {
