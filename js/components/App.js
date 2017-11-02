@@ -6,9 +6,9 @@ import {
   graphql,
 } from 'react-relay';
 
-import AddTodoMutation from '../mutations/AddTodoMutation';
-import {Todo, TodoBase} from './Todo';
-import TodoList from './TodoList';
+import CreatePageMutation from '../mutations/CreatePageMutation';
+import {Page, PageBase} from './Page';
+import PageList from './PageList';
 import {auth} from '../client';
 
 function getOrientation() {
@@ -17,7 +17,7 @@ function getOrientation() {
 
 export class AppBase extends React.Component {
   _handleTextInputSave = (text) => {
-    AddTodoMutation.commit(
+    CreatePageMutation.commit(
       this.props.relay.environment,
       text,
       this.props.viewer,
@@ -89,7 +89,7 @@ export class AppBase extends React.Component {
   render() {
     let sidebar = null;
 
-    let page = <TodoBase />;
+    let page = <PageBase />;
 
     if (this.props.relay) {
       const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
@@ -100,14 +100,14 @@ export class AppBase extends React.Component {
       sidebar = (
         <div id="sidebar">
           <h1>edit.io</h1>
-          <TodoList viewer={this.props.viewer} />
+          <PageList viewer={this.props.viewer} />
         </div>
       );
 
       page = (
-        <Todo
+        <Page
           key={this.props.relay ? this.props.viewer.user.currentPage.edges[0].node.id : null}
-          todo={this.props.relay ? this.props.viewer.user.currentPage.edges[0].node : null}
+          page={this.props.relay ? this.props.viewer.user.currentPage.edges[0].node : null}
           viewer={this.props.viewer}
         />
       );
@@ -172,31 +172,13 @@ export let App = createFragmentContainer(AppBase, {
           edges {
             node {
               id
-              ...Todo_todo
-            }
-          }
-        }
-
-        incompleteTodos: todos(
-          first: 1000
-        ) {
-          count
-        }
-        todos(
-          first: 1000
-          orderBy: createdAt_DESC
-        ) @connection(key: "TodoList_todos") {
-          edges {
-            node {
-              id
-              complete
-              ...Todo_todo
+              ...Page_page
             }
           }
         }
       }
-      ...TodoList_viewer,
-      ...Todo_viewer,
+      ...PageList_viewer,
+      ...Page_viewer,
     }
   `,
 });

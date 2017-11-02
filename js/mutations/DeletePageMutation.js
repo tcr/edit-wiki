@@ -5,7 +5,7 @@ import {
 import {ConnectionHandler} from 'relay-runtime';
 
 const mutation = graphql`
-  mutation RemoveTodoMutation($input: DeleteTodoInput!) {
+  mutation DeletePageMutation($input: DeleteTodoInput!) {
     deleteTodo(input: $input) {
       todo {
         id

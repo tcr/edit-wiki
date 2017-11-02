@@ -5,7 +5,7 @@ import {
 import {ConnectionHandler} from 'relay-runtime';
 
 const mutation = graphql`
-  mutation AddTodoMutation($input: CreateTodoInput!) {
+  mutation CreatePageMutation($input: CreateTodoInput!) {
     createTodo(input:$input) {
       edge {
         cursor
@@ -18,16 +18,6 @@ const mutation = graphql`
       viewer {
         user {
           id
-          incompleteTodos: todos(
-            first: 1000
-          ) {
-            count
-          }
-          completedTodos: todos(
-            filter: { complete: true }
-          ) {
-            count
-          }
         }
       }
     }
@@ -38,7 +28,7 @@ function sharedUpdater(store, viewer, newEdge) {
   const userProxy = store.get(viewer.user.id);
   const conn = ConnectionHandler.getConnection(
     userProxy,
-    'TodoList_todos',
+    'PageList_pages',
     {orderBy: 'createdAt_DESC'},
   );
   ConnectionHandler.insertEdgeBefore(conn, newEdge);
@@ -85,20 +75,7 @@ function commit(
         newEdge.setLinkedRecord(node, 'node');
         sharedUpdater(store, viewer, newEdge);
       },
-
-      optimisticResponse: {
-        createTodo: {
-          viewer: {
-            user: {
-              id: viewer.user.id,
-              incompleteTodos: {
-                count: viewer.user.incompleteTodos.count + 1,
-              }
-            }
-          }
-        }
-      },
-    }
+    },
   );
 }
 

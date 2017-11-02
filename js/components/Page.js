@@ -7,15 +7,14 @@ import {
 } from 'react-relay';
 import classnames from 'classnames';
 
-import ChangeTodoStatusMutation from '../mutations/ChangeTodoStatusMutation';
-import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
-import RenameTodoMutation from '../mutations/RenameTodoMutation';
+import DeletePageMutation from '../mutations/DeletePageMutation';
+import UpdatePageMutation from '../mutations/UpdatePageMutation';
 
 import RenderWorker from 'worker-loader?name=render.worker.js!../markdown-render';
 
 const worker = new RenderWorker();
 
-export class TodoBase extends React.Component {
+export class PageBase extends React.Component {
   state = {
     text: '',
   };
@@ -41,8 +40,8 @@ export class TodoBase extends React.Component {
 
     if (this.props.relay) {
       this.state = {
-        text: props.todo.text,
-        savedText: props.todo.text,
+        text: props.page.text,
+        savedText: props.page.text,
       };
     } else {
       this.state = {
@@ -52,20 +51,20 @@ export class TodoBase extends React.Component {
     }
   }
 
-  _removeTodo() {
-    RemoveTodoMutation.commit(
+  _removePage() {
+    DeletePageMutation.commit(
       this.props.relay.environment,
-      this.props.todo,
+      this.props.page,
       this.props.viewer,
     );
   }
   
   _pushUpdates() {
     if (this.state.text != this.state.savedText) {
-      RenameTodoMutation.commit(
+      UpdatePageMutation.commit(
         this.props.relay.environment,
         this.state.text,
-        this.props.todo,
+        this.props.page,
       );
 
       this.setState({
@@ -140,28 +139,18 @@ export class TodoBase extends React.Component {
   }
 }
 
-export let Todo = createFragmentContainer(TodoBase, {
-  todo: graphql`
-    fragment Todo_todo on Todo {
+export let Page = createFragmentContainer(PageBase, {
+  page: graphql`
+    fragment Page_page on Todo {
       complete,
       id,
       text,
     }
   `,
   viewer: graphql`
-    fragment Todo_viewer on Viewer {
+    fragment Page_viewer on Viewer {
       user {
         id
-        incompleteTodos: todos(
-          first: 1000
-        ) {
-          count
-        }
-        completedTodos: todos(
-          filter: {complete: true}
-        ) {
-          count
-        }
       }
     }
   `,

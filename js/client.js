@@ -19,7 +19,6 @@ import {
 import routes from './routes';
 import Auth from './auth';
 import {fetchAuthenticatedQuery} from './graphcool';
-import CreateUserMutation from './mutations/CreateUserMutation';
 import {AppBase} from './components/App';
 
 export const auth = new Auth();
@@ -39,7 +38,6 @@ const Router = createFarceRouter({
   routeConfig: routes,
   render: createRender({
     renderPending: () => {
-      console.log('---->', arguments);
       return (
         <AppBase
           location={window.location}
