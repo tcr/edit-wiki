@@ -70,7 +70,7 @@ export class AppBase extends React.Component {
       const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
       if (!pageExists) {
         const textID = window.location.pathname.replace(/^\/+|\/+$/g, '');
-        AddTodoMutation.commit(
+        CreatePageMutation.commit(
           this.props.relay.environment,
           textID == '' ?
             '# Hello world!\n\nWelcome to edit.io. Hit ESC or go to a new page to create new pages.' :
@@ -165,7 +165,7 @@ export let App = createFragmentContainer(AppBase, {
     fragment App_viewer on Viewer {
       user {
         id
-        currentPage: todos(
+        currentPage: pages(
           first: 1
           filter: $pageFilter
         ){

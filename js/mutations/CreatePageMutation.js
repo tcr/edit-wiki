@@ -5,8 +5,8 @@ import {
 import {ConnectionHandler} from 'relay-runtime';
 
 const mutation = graphql`
-  mutation CreatePageMutation($input: CreateTodoInput!) {
-    createTodo(input:$input) {
+  mutation CreatePageMutation($input: CreatePageInput!) {
+    createPage(input:$input) {
       edge {
         cursor
         node {
@@ -57,7 +57,7 @@ function commit(
       },
 
       updater: (store) => {
-        const payload = store.getRootField('createTodo');
+        const payload = store.getRootField('createPage');
         const newEdge = payload.getLinkedRecord('edge');
         sharedUpdater(store, viewer, newEdge);
         next && next();
@@ -65,12 +65,12 @@ function commit(
 
       optimisticUpdater: (store) => {
         const id = 'client:newEdge:' + tempID++;
-        const node = store.create(id, 'Todo');
+        const node = store.create(id, 'Page');
         node.setValue(text, 'text');
         node.setValue(id, 'id');
         const newEdge = store.create(
           'client:newEdge:' + tempID++,
-          'TodoEdge',
+          'PageEdge',
         );
         newEdge.setLinkedRecord(node, 'node');
         sharedUpdater(store, viewer, newEdge);

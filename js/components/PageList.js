@@ -33,7 +33,7 @@ export default createFragmentContainer(PageList, {
     fragment PageList_viewer on Viewer {
       user {
         id
-        pages: todos(
+        pages(
           first: 1000
           orderBy: createdAt_DESC
         ) @connection(key: "PageList_pages") {

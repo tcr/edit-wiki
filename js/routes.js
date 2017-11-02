@@ -6,7 +6,7 @@ import { graphql } from 'react-relay';
 import {App} from './components/App';
 
 const AppQuery = graphql`
-  query routes_App_Query($pageFilter: TodoFilter!) {
+  query routes_App_Query($pageFilter: PageFilter!) {
     viewer {
       ...App_viewer
     }

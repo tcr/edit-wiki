@@ -4,9 +4,9 @@ import {
 } from 'react-relay';
 
 const mutation = graphql`
-  mutation UpdatePageMutation($input: UpdateTodoInput!) {
-    updateTodo(input: $input) {
-      todo {
+  mutation UpdatePageMutation($input: UpdatePageInput!) {
+    updatePage(input: $input) {
+      page {
         id
         text
       }
@@ -14,11 +14,11 @@ const mutation = graphql`
   }
 `;
 
-function getOptimisticResponse(text, todo) {
+function getOptimisticResponse(text, page) {
   return {
-    updateTodo: {
-      todo: {
-        id: todo.id,
+    updatePage: {
+      page: {
+        id: page.id,
         text: text,
       },
     },
@@ -28,7 +28,7 @@ function getOptimisticResponse(text, todo) {
 function commit(
   environment,
   text,
-  todo
+  page
 ) {
   return commitMutation(
     environment,
@@ -37,10 +37,10 @@ function commit(
       variables: {
         input: {
           text,
-          id: todo.id,
+          id: page.id,
         },
       },
-      optimisticResponse: getOptimisticResponse(text, todo),
+      optimisticResponse: getOptimisticResponse(text, page),
     }
   );
 }

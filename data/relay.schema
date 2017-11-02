@@ -1,14 +1,14 @@
-﻿type AddToTodoOnUserPayload {
+﻿type AddToPageOnUserPayload {
   viewer: Viewer!
   clientMutationId: String!
   userUser: User
-  todosTodo: Todo
+  pagesPage: Page
   userUserEdge: UserEdge
-  todosTodoEdge: TodoEdge
+  pagesPageEdge: PageEdge
 }
 
-input AddToTodoOnUserUserInput {
-  todosTodoId: ID!
+input AddToPageOnUserUserInput {
+  pagesPageId: ID!
   userUserId: ID!
   clientMutationId: String!
 }
@@ -29,35 +29,35 @@ type CreateFilePayload {
   edge: FileEdge
 }
 
-input CreateTodo {
+input CreatePage {
   complete: Boolean
   text: String
   textID: String!
   userId: ID
-  user: TodouserUser
+  user: PageuserUser
 }
 
-input CreateTodoInput {
+input CreatePageInput {
   complete: Boolean
   text: String
   textID: String!
   userId: ID
-  user: TodouserUser
+  user: PageuserUser
   clientMutationId: String!
 }
 
-type CreateTodoPayload {
+type CreatePagePayload {
   viewer: Viewer!
   clientMutationId: String!
-  todo: Todo
-  edge: TodoEdge
+  page: Page
+  edge: PageEdge
   user: User
 }
 
 input CreateUser {
   auth0UserId: String
-  todosIds: [ID!]
-  todos: [UsertodosTodo!]
+  pagesIds: [ID!]
+  pages: [UserpagesPage!]
 }
 
 # If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
@@ -82,16 +82,16 @@ type DeleteFilePayload {
   deletedId: ID
 }
 
-input DeleteTodoInput {
+input DeletePageInput {
   id: ID!
   clientMutationId: String!
 }
 
-type DeleteTodoPayload {
+type DeletePagePayload {
   viewer: Viewer!
   clientMutationId: String!
-  todo: Todo
-  edge: TodoEdge
+  page: Page
+  edge: PageEdge
   user: User
   deletedId: ID
 }
@@ -436,17 +436,17 @@ enum FileOrderBy {
 
 type Mutation {
   createFile(input: CreateFileInput!): CreateFilePayload
-  createTodo(input: CreateTodoInput!): CreateTodoPayload
+  createPage(input: CreatePageInput!): CreatePagePayload
   updateFile(input: UpdateFileInput!): UpdateFilePayload
-  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
+  updatePage(input: UpdatePageInput!): UpdatePagePayload
   updateUser(input: UpdateUserInput!): UpdateUserPayload
   updateOrCreateFile(input: UpdateOrCreateFileInput!): UpdateOrCreateFilePayload
-  updateOrCreateTodo(input: UpdateOrCreateTodoInput!): UpdateOrCreateTodoPayload
+  updateOrCreatePage(input: UpdateOrCreatePageInput!): UpdateOrCreatePagePayload
   updateOrCreateUser(input: UpdateOrCreateUserInput!): UpdateOrCreateUserPayload
   deleteFile(input: DeleteFileInput!): DeleteFilePayload
-  deleteTodo(input: DeleteTodoInput!): DeleteTodoPayload
+  deletePage(input: DeletePageInput!): DeletePagePayload
   deleteUser(input: DeleteUserInput!): DeleteUserPayload
-  addToTodoOnUser(input: AddToTodoOnUserUserInput!): AddToTodoOnUserPayload
+  addToPageOnUser(input: AddToPageOnUserUserInput!): AddToPageOnUserPayload
   createUser(input: SignupUserInput!): CreateUserPayload!
 }
 
@@ -456,39 +456,7 @@ interface Node {
   id: ID!
 }
 
-# Information about pagination in a connection.
-type PageInfo {
-  # When paginating forwards, are there more items?
-  hasNextPage: Boolean!
-
-  # When paginating backwards, are there more items?
-  hasPreviousPage: Boolean!
-
-  # When paginating backwards, the cursor to continue.
-  startCursor: String
-
-  # When paginating forwards, the cursor to continue.
-  endCursor: String
-}
-
-type Query {
-  viewer: Viewer!
-
-  # Fetches an object given its ID
-  node(
-    # The ID of an object
-    id: ID!
-  ): Node
-}
-
-input SignupUserInput {
-  auth0UserId: String
-  todosIds: [ID!]
-  todos: [UsertodosTodo!]
-  clientMutationId: String!
-}
-
-type Todo implements Node {
+type Page implements Node {
   complete: Boolean!
   createdAt: DateTime!
   id: ID!
@@ -499,32 +467,32 @@ type Todo implements Node {
 }
 
 # A connection to a list of items.
-type TodoConnection {
+type PageConnection {
   # Information to aid in pagination.
   pageInfo: PageInfo!
 
   # A list of edges.
-  edges: [TodoEdge]
+  edges: [PageEdge]
 
   # Count of filtered result set without considering pagination arguments
   count: Int!
 }
 
 # An edge in a connection.
-type TodoEdge {
+type PageEdge {
   # The item at the end of the edge.
-  node: Todo!
+  node: Page!
 
   # A cursor for use in pagination.
   cursor: String!
 }
 
-input TodoFilter {
+input PageFilter {
   # Logical AND on all given filters.
-  AND: [TodoFilter!]
+  AND: [PageFilter!]
 
   # Logical OR on all given filters.
-  OR: [TodoFilter!]
+  OR: [PageFilter!]
   complete: Boolean
 
   # All values that are not equal to given value.
@@ -696,7 +664,22 @@ input TodoFilter {
   user: UserFilter
 }
 
-enum TodoOrderBy {
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+enum PageOrderBy {
   complete_ASC
   complete_DESC
   createdAt_ASC
@@ -711,10 +694,27 @@ enum TodoOrderBy {
   updatedAt_DESC
 }
 
-input TodouserUser {
+input PageuserUser {
   auth0UserId: String
-  todosIds: [ID!]
-  todos: [UsertodosTodo!]
+  pagesIds: [ID!]
+  pages: [UserpagesPage!]
+}
+
+type Query {
+  viewer: Viewer!
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+input SignupUserInput {
+  auth0UserId: String
+  pagesIds: [ID!]
+  pages: [UserpagesPage!]
+  clientMutationId: String!
 }
 
 input UpdateFile {
@@ -748,17 +748,17 @@ type UpdateOrCreateFilePayload {
   edge: FileEdge
 }
 
-input UpdateOrCreateTodoInput {
-  update: UpdateTodo!
-  create: CreateTodo!
+input UpdateOrCreatePageInput {
+  update: UpdatePage!
+  create: CreatePage!
   clientMutationId: String!
 }
 
-type UpdateOrCreateTodoPayload {
+type UpdateOrCreatePagePayload {
   viewer: Viewer!
   clientMutationId: String!
-  todo: Todo
-  edge: TodoEdge
+  page: Page
+  edge: PageEdge
   user: User
 }
 
@@ -775,45 +775,45 @@ type UpdateOrCreateUserPayload {
   edge: UserEdge
 }
 
-input UpdateTodo {
+input UpdatePage {
   complete: Boolean
   id: ID!
   text: String
   textID: String
   userId: ID
-  user: TodouserUser
+  user: PageuserUser
 }
 
-input UpdateTodoInput {
+input UpdatePageInput {
   complete: Boolean
   id: ID!
   text: String
   textID: String
   userId: ID
-  user: TodouserUser
+  user: PageuserUser
   clientMutationId: String!
 }
 
-type UpdateTodoPayload {
+type UpdatePagePayload {
   viewer: Viewer!
   clientMutationId: String!
-  todo: Todo
-  edge: TodoEdge
+  page: Page
+  edge: PageEdge
   user: User
 }
 
 input UpdateUser {
   auth0UserId: String
   id: ID!
-  todosIds: [ID!]
-  todos: [UsertodosTodo!]
+  pagesIds: [ID!]
+  pages: [UserpagesPage!]
 }
 
 input UpdateUserInput {
   auth0UserId: String
   id: ID!
-  todosIds: [ID!]
-  todos: [UsertodosTodo!]
+  pagesIds: [ID!]
+  pages: [UserpagesPage!]
   clientMutationId: String!
 }
 
@@ -828,7 +828,7 @@ type User implements Node {
   auth0UserId: String
   createdAt: DateTime!
   id: ID!
-  todos(filter: TodoFilter, orderBy: TodoOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection
+  pages(filter: PageFilter, orderBy: PageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): PageConnection
   updatedAt: DateTime!
 }
 
@@ -983,9 +983,9 @@ input UserFilter {
 
   # All values greater than or equal the given value.
   updatedAt_gte: DateTime
-  todos_every: TodoFilter
-  todos_some: TodoFilter
-  todos_none: TodoFilter
+  pages_every: PageFilter
+  pages_some: PageFilter
+  pages_none: PageFilter
 }
 
 enum UserOrderBy {
@@ -999,7 +999,7 @@ enum UserOrderBy {
   updatedAt_DESC
 }
 
-input UsertodosTodo {
+input UserpagesPage {
   complete: Boolean
   text: String
   textID: String!
@@ -1008,11 +1008,11 @@ input UsertodosTodo {
 # This is the famous Relay viewer object
 type Viewer {
   allFiles(filter: FileFilter, orderBy: FileOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
-  allTodoes(filter: TodoFilter, orderBy: TodoOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection!
+  allPages(filter: PageFilter, orderBy: PageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): PageConnection!
   allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   user: User
   File(id: ID, secret: String, url: String): File
-  Todo(id: ID, textID: String): Todo
+  Page(id: ID): Page
   User(auth0UserId: String, id: ID): User
   id: ID!
 }

@@ -141,7 +141,7 @@ export class PageBase extends React.Component {
 
 export let Page = createFragmentContainer(PageBase, {
   page: graphql`
-    fragment Page_page on Todo {
+    fragment Page_page on Page {
       complete,
       id,
       text,
