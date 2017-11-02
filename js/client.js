@@ -1,20 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import routes from './routes';
-import Auth from './auth';
-import {fetchAuthenticatedQuery} from './graphcool';
-
 import BrowserProtocol from 'farce/lib/BrowserProtocol';
 import queryMiddleware from 'farce/lib/queryMiddleware';
 import createFarceRouter from 'found/lib/createFarceRouter';
 import createRender from 'found/lib/createRender';
-import { Resolver } from 'found-relay';
-
-import CreateUserMutation from './mutations/CreateUserMutation';
-
-import {AppBase} from './components/App';
-
+import {Resolver} from 'found-relay';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {
   QueryRenderer,
   graphql,
@@ -25,6 +15,12 @@ import {
   RecordSource,
   Store,
 } from 'relay-runtime';
+
+import routes from './routes';
+import Auth from './auth';
+import {fetchAuthenticatedQuery} from './graphcool';
+import CreateUserMutation from './mutations/CreateUserMutation';
+import {AppBase} from './components/App';
 
 export const auth = new Auth();
 

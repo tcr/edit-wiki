@@ -1,19 +1,15 @@
-import AddTodoMutation from '../mutations/AddTodoMutation';
-import {Todo, TodoBase} from './Todo';
-import TodoList from './TodoList';
-import TodoListFooter from './TodoListFooter';
-import TodoTextInput from './TodoTextInput';
-
-import {auth} from '../client';
-
+import classnames from 'classnames';
 import Mousetrap from 'mousetrap';
 import React from 'react';
-
 import {
   createFragmentContainer,
   graphql,
 } from 'react-relay';
-import classnames from 'classnames';
+
+import AddTodoMutation from '../mutations/AddTodoMutation';
+import {Todo, TodoBase} from './Todo';
+import TodoList from './TodoList';
+import {auth} from '../client';
 
 function getOrientation() {
   return screen.width > screen.height ? 'landscape' : 'portrait';
@@ -199,7 +195,6 @@ export let App = createFragmentContainer(AppBase, {
           }
         }
       }
-      ...TodoListFooter_viewer,
       ...TodoList_viewer,
       ...Todo_viewer,
     }

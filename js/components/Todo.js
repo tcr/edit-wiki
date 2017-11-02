@@ -1,19 +1,17 @@
-import RenderWorker from 'worker-loader?name=render.worker.js!../markdown-render';
-
-import ChangeTodoStatusMutation from '../mutations/ChangeTodoStatusMutation';
-import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
-import RenameTodoMutation from '../mutations/RenameTodoMutation';
-import TodoTextInput from './TodoTextInput';
 import marked from 'marked';
-
 import Mousetrap from 'mousetrap';
-
 import React from 'react';
 import {
   createFragmentContainer,
   graphql,
 } from 'react-relay';
 import classnames from 'classnames';
+
+import ChangeTodoStatusMutation from '../mutations/ChangeTodoStatusMutation';
+import RemoveTodoMutation from '../mutations/RemoveTodoMutation';
+import RenameTodoMutation from '../mutations/RenameTodoMutation';
+
+import RenderWorker from 'worker-loader?name=render.worker.js!../markdown-render';
 
 const worker = new RenderWorker();
 

@@ -1,11 +1,11 @@
-import MarkAllTodosMutation from '../mutations/MarkAllTodosMutation';
-import Todo from './Todo';
-
 import React from 'react';
 import {
   createFragmentContainer,
   graphql,
 } from 'react-relay';
+
+import MarkAllTodosMutation from '../mutations/MarkAllTodosMutation';
+import Todo from './Todo';
 
 class TodoList extends React.Component {
   _handleMarkAllChange = (e) => {

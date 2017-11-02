@@ -4,7 +4,6 @@ import React from 'react';
 import { graphql } from 'react-relay';
 
 import {App} from './components/App';
-// import TodoList from './components/TodoList';
 
 const AppQuery = graphql`
   query routes_App_Query($pageFilter: TodoFilter!) {
