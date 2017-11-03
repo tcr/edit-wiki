@@ -60,12 +60,6 @@ export class AppBase extends React.Component {
   }
 
   componentDidMount() {
-    this.lister.addEventListener('click', () => {
-      this.setState({
-        sidebarVisible: !this.state.sidebarVisible,
-      });
-    });
-
     if (this.props.relay) {
       const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
       if (!pageExists) {
@@ -133,7 +127,11 @@ export class AppBase extends React.Component {
             display: this.state.orientation == 'landscape' ? 'none' : 'block',
           }}
           id="lister"
-          ref={lister => this.lister = lister}
+          onClick={() => {
+            this.setState({
+              sidebarVisible: !this.state.sidebarVisible,
+            });
+          }}
         >
           Open Menu
         </button>
