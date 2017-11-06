@@ -62,8 +62,11 @@ export class AppBase extends React.Component {
   componentDidMount() {
     if (this.props.relay) {
       const pageExists = this.props.viewer.user.currentPage.edges.length > 0;
+      const textID = window.location.pathname.replace(/^\/+|\/+$/g, '');
+
+      document.title = `${textID} | edit.io`;
+
       if (!pageExists) {
-        const textID = window.location.pathname.replace(/^\/+|\/+$/g, '');
         CreatePageMutation.commit(
           this.props.relay.environment,
           textID == '' ?
